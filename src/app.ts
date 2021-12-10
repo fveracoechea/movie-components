@@ -8,7 +8,7 @@ import Article from "./components/Article";
 import Hero from "./components/Hero";
 import Navigation from "./components/Navigation";
 // router
-import { setRoutes } from "./router";
+import "./router";
 
 // define components
 const defineComponents = () => {
@@ -24,4 +24,3 @@ const defineComponents = () => {
 
 // intialize app
 defineComponents();
-setRoutes();

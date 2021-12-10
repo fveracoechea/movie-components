@@ -1,12 +1,22 @@
-import { Router } from "@vaadin/router";
+import "@appnest/web-router";
 
-console.log(process.env.NODE_ENV)
-export const router = new Router(document.getElementById("app"));
+console.log(process.env.NODE_ENV);
+const router = document.querySelector("router-slot");
 
-export const setRoutes = () => {
-  router.setRoutes([
-    { path: "/", component: "mc-home-page" },
-    { path: "/search", component: "mc-search-page" },
-    { path: "(.*)", component: "x-not-found-view" },
+customElements.whenDefined("router-slot").then(async () => {
+  if(!router) return;
+  router.add([
+    {
+      path: "home",
+      component: () => import("./pages/Home"), // Lazy loaded
+    },
+    {
+      path: "search",
+      component: () => import("./pages/Search"), // Not lazy loaded
+    },
+    {
+      path: "**",
+      redirectTo: "home",
+    },
   ]);
-};
+});
