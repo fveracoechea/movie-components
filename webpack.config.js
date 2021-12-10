@@ -1,6 +1,8 @@
 const path = require("path");
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const WebpackBar = require('webpackbar');
+const WebpackBar = require("webpackbar");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = (env) => ({
   entry: {
@@ -24,7 +26,11 @@ module.exports = (env) => ({
         exclude: /node_modules/,
       },
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+      {
+        test: /\.(scss|sass)$/i,
         use: [
           // Creates `style` nodes from JS strings
           "style-loader",
@@ -45,9 +51,16 @@ module.exports = (env) => ({
         test: /\.html$/i,
         loader: "html-loader",
       },
+      { test: /\.(handlebars|hbs)$/i, loader: "handlebars-loader" },
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      "process.env.NODE_ENV": JSON.stringify(
+        env.production ? "production" : "development"
+      ),
+    }),
+    new MiniCssExtractPlugin(),
     new WebpackBar(),
     new HtmlWebpackPlugin({
       hash: true, // This is useful for cache busting
@@ -64,5 +77,5 @@ module.exports = (env) => ({
     clean: true,
   },
   target: "web",
-  stats: 'errors-only',
+  stats: "errors-only",
 });

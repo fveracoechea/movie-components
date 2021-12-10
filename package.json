@@ -10,13 +10,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@vaadin/router": "^1.7.4"
+    "@vaadin/router": "^1.7.4",
+    "rxjs": "^7.4.0"
   },
   "devDependencies": {
     "css-loader": "^6.5.1",
     "file-loader": "^6.2.0",
+    "handlebars": "^4.7.7",
+    "handlebars-loader": "^1.7.1",
     "html-loader": "^3.0.1",
     "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.4.5",
     "sass": "^1.44.0",
     "sass-loader": "^12.4.0",
     "style-loader": "^3.3.1",
