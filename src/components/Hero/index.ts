@@ -1,28 +1,33 @@
-import template from "./template.hbs";
-import WebComponent from "../../lib/helpers/WebComponent";
+import template from "./template.html";
+import WebElement, { OnAttributeChange } from "../../lib/helpers/WebElement";
 
-type State = {
-  heading: string;
-  description: string;
-  image: string;
-};
-
-class Hero extends WebComponent<State> {
+class Hero extends WebElement {
   static get observedAttributes() {
     return ["heading", "image", "description"];
   }
 
   constructor() {
     super();
-    this.template = template;
+    this.initialize(template);
+    this.setElementByClass("heading");
+    this.setElementByClass("wrapper");
+    this.setElementByClass("description");
   }
 
-  connectedCallback() {
-  }
-
-  attributeChangedCallback(name: string, oldValue: string, newValue: string) {
-    this.onAttributeChange(name, oldValue, newValue);
-  }
+  onAttributeChange: OnAttributeChange = {
+    handlers: {
+      heading: ({ name, newValue }) => {
+        this.elements.heading.textContent = newValue;
+      },
+      description: ({ name, newValue }) => {
+        this.elements.description.textContent = newValue;
+      },
+      image: ({ name, newValue }) => {
+        this.elements.wrapper.style.backgroundImage = `url(${newValue})`;
+      },
+    },
+    defaultCase: this.noop,
+  };
 }
 
 export default Hero;

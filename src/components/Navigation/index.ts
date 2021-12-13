@@ -1,25 +1,25 @@
 import { distinctUntilChanged, fromEvent, map } from "rxjs";
-import WebComponent from "../../lib/helpers/WebComponent";
-import template from "./template.hbs";
+import WebElement from "../../lib/helpers/WebElement";
+import template from "./template.html";
 
-class Article extends WebComponent<{}> {
-  private onWindowScroll = fromEvent(window, "scroll").pipe(
-    map(() => {
-      if (window.scrollY > 520) {
-        return "rgba(0,0,0,.8)";
-      }
-      return "rgba(0,0,0,0)";
-    }),
-    distinctUntilChanged()
-  );
+const onWindowScroll$ = fromEvent(window, "scroll").pipe(
+  map(() => {
+    if (window.scrollY > 520) {
+      return "rgba(0,0,0,.8)";
+    }
+    return "rgba(0,0,0,0)";
+  }),
+  distinctUntilChanged()
+);
 
+class Article extends WebElement {
   constructor() {
     super();
-    this.template = template;
+    this.initialize(template);
   }
 
   connectedCallback() {
-    this.onWindowScroll.subscribe({
+    onWindowScroll$.subscribe({
       next: (backgroundColor) => {
         const nav = this.shadowRoot!.querySelector("nav");
         const h1 = this.shadowRoot!.querySelector("h1");

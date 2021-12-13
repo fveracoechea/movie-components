@@ -1,10 +1,10 @@
-import WebComponent from "../../lib/helpers/WebComponent";
-import template from "./template.hbs";
+import WebElement from "../../lib/helpers/WebElement";
+import html from "./template.html";
 
-class Article extends WebComponent {
+class Article extends WebElement {
   constructor() {
     super();
-    this.template = template;
+    this.initialize(html);
   }
 }
 

@@ -6,7 +6,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = (env) => ({
   entry: {
-    main: path.resolve(__dirname, "src", "app.ts"),
+    home: path.resolve(__dirname, "src", "pages", "Home", "index.ts"),
+    search: path.resolve(__dirname, "src", "pages", "Search", "index.ts"),
   },
   mode: env.production ? "production" : "development",
   devtool: env.production ? false : "source-map",
@@ -60,12 +61,20 @@ module.exports = (env) => ({
         env.production ? "production" : "development"
       ),
     }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: "main.css",
+      chunkFilename: "main.css",
+    }),
     new WebpackBar(),
     new HtmlWebpackPlugin({
-      hash: true, // This is useful for cache busting
       filename: "index.html",
-      template: path.resolve(__dirname, "src", "app.html"),
+      template: path.resolve(__dirname, "src", "pages", "Home", "page.html"),
+      chunks: ["home"],
+    }),
+    new HtmlWebpackPlugin({
+      filename: "search.html",
+      template: path.resolve(__dirname, "src", "pages", "Search", "page.html"),
+      chunks: ["search"],
     }),
   ],
   resolve: {

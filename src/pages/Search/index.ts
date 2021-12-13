@@ -1,14 +1,24 @@
-import html from "./template.html";
+import template from "./template.hbs";
+import WebElement from "../../lib/helpers/WebElement";
+// assets
+import heroImage from "../../assets/images/homepage.jpg";
+import "../../assets/styles/main.css";
+// components
+import Article from "../../components/Article";
+import Hero from "../../components/Hero";
+import Navigation from "../../components/Navigation";
 
-const template = document.createElement("template");
-template.innerHTML = html;
-
-class SerachPage extends HTMLElement {
+class SearchPage extends WebElement {
   constructor() {
     super();
-    this.attachShadow({ mode: "open" });
-    this.shadowRoot?.appendChild(template.content.cloneNode(true));
+    this.initialize(template({ heroImage }));
   }
 }
 
-export default SerachPage;
+// * define components
+// pages
+customElements.define("mc-search-page", SearchPage);
+// components
+customElements.define("mc-article", Article);
+customElements.define("mc-hero", Hero);
+customElements.define("mc-navigation", Navigation);
