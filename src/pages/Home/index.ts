@@ -7,6 +7,7 @@ import "../../assets/styles/main.css";
 import Article from "../../components/Article";
 import Hero from "../../components/Hero";
 import Navigation from "../../components/Navigation";
+import SearchInput from "../../components/SearchInput";
 
 class HomePage extends WebElement {
   constructor() {
@@ -22,3 +23,4 @@ customElements.define("mc-homepage", HomePage);
 customElements.define("mc-article", Article);
 customElements.define("mc-hero", Hero);
 customElements.define("mc-navigation", Navigation);
+customElements.define("mc-search-input", SearchInput);

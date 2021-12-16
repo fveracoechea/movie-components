@@ -51,3 +51,14 @@ p {
   max-width: 1000px;
   margin: 0 auto;
 }
+
+
+@media (max-width: 650px) {
+  html {
+    font-size: 14px;
+  }
+  
+  body {
+    font-size: 14px;
+  }
+}

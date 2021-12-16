@@ -1,10 +1,42 @@
 import { distinctUntilChanged, fromEvent, map } from "rxjs";
 import WebElement from "../../lib/helpers/WebElement";
-import template from "./template.html";
+import template from "./template.hbs";
+
+console.log(process.env.NODE_ENV)
+
+const navLinks = [
+  {
+    href: "/",
+    text: "discover",
+  },
+  {
+    href: "/",
+    text: "genres",
+  },
+  {
+    href: "/",
+    text: "Now Playing",
+  },
+  {
+    href: "/",
+    text: "Upcoming",
+  },
+  {
+    href: "/",
+    text: "trending",
+  },
+].map((link) =>
+  process.env.NODE_ENV === "production"
+    ? {
+        ...link,
+        href: `/movie-components${link.href}`,
+      }
+    : link
+);
 
 const onWindowScroll$ = fromEvent(window, "scroll").pipe(
   map(() => {
-    if (window.scrollY > 520) {
+    if (window.scrollY > 480) {
       return "rgba(0,0,0,.8)";
     }
     return "rgba(0,0,0,0)";
@@ -15,7 +47,7 @@ const onWindowScroll$ = fromEvent(window, "scroll").pipe(
 class Article extends WebElement {
   constructor() {
     super();
-    this.initialize(template);
+    this.initialize(template({ navLinks }));
   }
 
   connectedCallback() {

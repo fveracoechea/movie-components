@@ -4,6 +4,19 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackBar = require("webpackbar");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+const htmlPages = [
+  {
+    filename: "index.html",
+    template: path.resolve(__dirname, "src", "pages", "Home", "page.html"),
+    chunks: ["home"],
+  },
+  {
+    filename: "search.html",
+    template: path.resolve(__dirname, "src", "pages", "Search", "page.html"),
+    chunks: ["search"],
+  },
+].map((page) => new HtmlWebpackPlugin(page));
+
 module.exports = (env) => ({
   entry: {
     home: path.resolve(__dirname, "src", "pages", "Home", "index.ts"),
@@ -62,27 +75,18 @@ module.exports = (env) => ({
       ),
     }),
     new MiniCssExtractPlugin({
-      filename: "main.css",
+      filename: "./styles/main.css",
       chunkFilename: "main.css",
     }),
     new WebpackBar(),
-    new HtmlWebpackPlugin({
-      filename: "index.html",
-      template: path.resolve(__dirname, "src", "pages", "Home", "page.html"),
-      chunks: ["home"],
-    }),
-    new HtmlWebpackPlugin({
-      filename: "search.html",
-      template: path.resolve(__dirname, "src", "pages", "Search", "page.html"),
-      chunks: ["search"],
-    }),
+    ...htmlPages,
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".css", ".scss"],
   },
   output: {
     path: path.resolve(__dirname, "docs"),
-    filename: "[name].[contenthash].js",
+    filename: "./js/[name].[contenthash].js",
     clean: true,
   },
   target: "web",
