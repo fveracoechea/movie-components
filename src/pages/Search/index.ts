@@ -1,24 +1,11 @@
-import template from "./template.hbs";
-import WebElement from "../../lib/helpers/WebElement";
 // assets
-import heroImage from "../../assets/images/homepage.jpg";
-import "../../assets/styles/main.css";
+import heroImage from "../../images/discover.jpg";
 // components
-import Article from "../../components/Article";
-import Hero from "../../components/Hero";
-import Navigation from "../../components/Navigation";
+import { defineComponents } from "../../components";
 
-class SearchPage extends WebElement {
-  constructor() {
-    super();
-    this.initialize(template({ heroImage }));
-  }
+const { Hero } = defineComponents()
+
+const hero = document.querySelector("mc-hero");
+if (hero instanceof Hero) {
+  hero.setImage(heroImage);
 }
-
-// * define components
-// pages
-customElements.define("mc-search-page", SearchPage);
-// components
-customElements.define("mc-article", Article);
-customElements.define("mc-hero", Hero);
-customElements.define("mc-navigation", Navigation);

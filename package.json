@@ -2,7 +2,7 @@
   "name": "web-components",
   "version": "1.0.0",
   "description": "web components test",
-  "main": "index.js",
+  "main": "./src/pages/Home/index.ts",
   "scripts": {
     "build": "webpack --env production",
     "start": "webpack serve"
@@ -11,10 +11,12 @@
   "license": "ISC",
   "dependencies": {
     "@appnest/web-router": "^1.4.2",
+    "date-fns": "^2.27.0",
     "rxjs": "^7.4.0"
   },
   "devDependencies": {
     "css-loader": "^6.5.1",
+    "dotenv-webpack": "^7.0.3",
     "file-loader": "^6.2.0",
     "handlebars": "^4.7.7",
     "handlebars-loader": "^1.7.1",

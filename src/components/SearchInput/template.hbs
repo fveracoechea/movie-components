@@ -1,48 +1,4 @@
-<style>
-  @import url("./styles/main.css");
-  .wrapper {
-    position: relative;
-    max-width: 1000px;
-    background-color: #FFFFFF;
-    overflow: hidden;
-    min-height: 1.8rem;
-    border-radius: 1rem;
-    margin-top: 1.8rem;
-    background-color: var(--c-primary-dark);
-    border: 2px solid var(--c-primary-dark);
-  }
-  form input {
-    display: block;
-    height: 1.8rem;
-    border-radius: 1rem;
-    width: 100%;
-    font-size: 1rem;
-    font-weight: 300;
-    padding: 1.2rem 1rem;
-    outline: none;
-    border: none;
-  }
-  button {
-    position: absolute;
-    right: -2px;
-    top: 0;
-    height: 100%;
-    width: auto;
-    font-size: 1rem;
-    padding: 0 2rem;
-    font-weight: 300;
-    color: #fff;
-    border: none;
-    border-top-right-radius: 1rem;
-    border-bottom-right-radius: 1rem;
-    background-color: var(--c-primary-dark);
-    transition: all .4s ease;
-    cursor: pointer;
-  }
-  button:hover {
-    background-color: var(--c-primary);
-  }
-</style>
+{{> styles }}
 <div class="wrapper">
   <form action="{{formAction}}" method="GET" id="search-form">
     <input

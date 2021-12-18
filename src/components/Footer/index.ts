@@ -1,15 +1,11 @@
 import template from "./template.hbs";
 import css from './styles.scss'
 import WebElement from "../../lib/helpers/WebElement";
+import tmdbLogo from '../../images/tmdb-logo.svg'
 
-const formAction =
-  process.env.NODE_ENV === "production"
-    ? "/movie-components/search.html"
-    : "/search.html";
+const html = template({ tmdbLogo, css });
 
-const html = template({ formAction, css });
-
-class SearchInput extends WebElement {
+class Footer extends WebElement {
   static get observedAttributes() {
     return ["heading", "image", "description"];
   }
@@ -20,4 +16,4 @@ class SearchInput extends WebElement {
   }
 }
 
-export default SearchInput;
+export default Footer;

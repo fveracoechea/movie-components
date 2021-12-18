@@ -1,0 +1,32 @@
+
+:host {
+  width: 23%;
+  overflow: hidden;
+  @media screen and (max-width: 1024px) {
+    width: 32%;
+    overflow: hidden;
+  }
+  @media screen and (max-width: 760px) {
+    width: 49%;
+    overflow: hidden;
+  }
+  @media screen and (max-width: 440px) {
+    width: 100%;
+    overflow: hidden;
+  }
+}
+
+.movie-card {
+  .title {
+    font-size: 1.4rem;
+  }
+  .poster {
+    max-height: 50rem;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  figcaption {
+    padding-bottom: 1.6rem;
+  }
+}

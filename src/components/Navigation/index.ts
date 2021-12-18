@@ -1,8 +1,7 @@
 import { distinctUntilChanged, fromEvent, map } from "rxjs";
 import WebElement from "../../lib/helpers/WebElement";
 import template from "./template.hbs";
-
-console.log(process.env.NODE_ENV)
+import css from './styles.scss'
 
 const navLinks = [
   {
@@ -34,6 +33,8 @@ const navLinks = [
     : link
 );
 
+const html = template({ navLinks, css })
+
 const onWindowScroll$ = fromEvent(window, "scroll").pipe(
   map(() => {
     if (window.scrollY > 480) {
@@ -47,7 +48,7 @@ const onWindowScroll$ = fromEvent(window, "scroll").pipe(
 class Article extends WebElement {
   constructor() {
     super();
-    this.initialize(template({ navLinks }));
+    this.initialize(html);
   }
 
   connectedCallback() {

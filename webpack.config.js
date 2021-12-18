@@ -2,20 +2,10 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackBar = require("webpackbar");
+const Dotenv = require("dotenv-webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const htmlPages = [
-  {
-    filename: "index.html",
-    template: path.resolve(__dirname, "src", "pages", "Home", "page.html"),
-    chunks: ["home"],
-  },
-  {
-    filename: "search.html",
-    template: path.resolve(__dirname, "src", "pages", "Search", "page.html"),
-    chunks: ["search"],
-  },
-].map((page) => new HtmlWebpackPlugin(page));
+const getPages = require("./getPages");
 
 module.exports = (env) => ({
   entry: {
@@ -47,9 +37,13 @@ module.exports = (env) => ({
         test: /\.(scss|sass)$/i,
         use: [
           // Creates `style` nodes from JS strings
-          "style-loader",
-          // Translates CSS into CommonJS
-          "css-loader",
+          {
+            loader: "file-loader",
+            options: {
+              outputPath: "styles",
+              name: "[contenthash].css",
+            },
+          },
           // Compiles Sass to CSS
           "sass-loader",
         ],
@@ -62,31 +56,34 @@ module.exports = (env) => ({
         },
       },
       {
-        test: /\.html$/i,
-        loader: "html-loader",
+        test: /\.(handlebars|hbs)$/i,
+        loader: "handlebars-loader",
+        options: {
+          partialDirs: [path.join(__dirname, "src", "partials")],
+        },
       },
-      { test: /\.(handlebars|hbs)$/i, loader: "handlebars-loader" },
     ],
   },
   plugins: [
+    new Dotenv(),
+    new MiniCssExtractPlugin({
+      filename: "./styles/global.css",
+      chunkFilename: "./src/global.css",
+    }),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify(
         env.production ? "production" : "development"
       ),
     }),
-    new MiniCssExtractPlugin({
-      filename: "./styles/main.css",
-      chunkFilename: "main.css",
-    }),
     new WebpackBar(),
-    ...htmlPages,
+    ...getPages().map((page) => new HtmlWebpackPlugin(page)),
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".css", ".scss"],
   },
   output: {
     path: path.resolve(__dirname, "docs"),
-    filename: "./js/[name].[contenthash].js",
+    filename: "./scripts/[name].[contenthash].js",
     clean: true,
   },
   target: "web",
