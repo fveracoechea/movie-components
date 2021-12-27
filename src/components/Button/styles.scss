@@ -1,0 +1,22 @@
+button {
+  border: solid 2px var(--c-primary-dark);
+  color: var(--c-primary-dark);
+  padding: .6rem 1.6rem;
+  border-radius: 1rem;
+  font-size: 1rem;
+  font-weight: 300;
+  background-color: transparent;
+  transition: var(--transition);
+  cursor: pointer;
+  margin-left: 1rem;
+  &:hover {
+    border: solid 2px var(--c-primary-dark);
+    background-color: var(--c-primary-dark);
+    color: #FFFFFF;
+  }
+  &.active, &:active {
+    background-color: #4b4b4b;
+    border: solid 2px #4b4b4b;
+    color: #FFFFFF;
+  }
+}

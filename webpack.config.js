@@ -5,13 +5,14 @@ const WebpackBar = require("webpackbar");
 const Dotenv = require("dotenv-webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const getPages = require("./getPages");
+// helpers
+const { supportedLocales } = require("./date-fns");
+const getPages = require("./getPages")
+
+const { pages, entries: entry } = getPages();
 
 module.exports = (env) => ({
-  entry: {
-    home: path.resolve(__dirname, "src", "pages", "Home", "index.ts"),
-    search: path.resolve(__dirname, "src", "pages", "Search", "index.ts"),
-  },
+  entry,
   mode: env.production ? "production" : "development",
   devtool: env.production ? false : "source-map",
   devServer: {
@@ -76,7 +77,11 @@ module.exports = (env) => ({
       ),
     }),
     new WebpackBar(),
-    ...getPages().map((page) => new HtmlWebpackPlugin(page)),
+    ...pages.map((page) => new HtmlWebpackPlugin(page)),
+    new webpack.ContextReplacementPlugin(
+      /date\-fns[\/\\]/,
+      new RegExp(`[/\\\\\](${supportedLocales.join("|")})[/\\\\\]index\.js$`)
+    ),
   ],
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".css", ".scss"],

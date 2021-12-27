@@ -1,12 +1,7 @@
 import { TemplateDelegate } from "handlebars";
 import { BehaviorSubject, EMPTY, of, merge } from "rxjs";
 import { bufferTime, mergeMap } from "rxjs/operators";
-
-export function removeAllChildNodes(parent: ShadowRoot | HTMLElement) {
-  while (parent.firstChild) {
-    parent.removeChild(parent.firstChild);
-  }
-}
+import { removeAllChildNodes } from "./elements";
 
 type Props = Record<string, string>;
 

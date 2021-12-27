@@ -1,6 +1,6 @@
 import template from "./template.hbs";
 import css from './styles.scss'
-import WebElement, { OnAttributeChange } from "../../lib/helpers/WebElement";
+import WebElement, { OnAttributeChange } from "../../lib/WebElement";
 
 const html = template({ css })
 

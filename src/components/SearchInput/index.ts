@@ -1,6 +1,6 @@
 import template from "./template.hbs";
 import css from './styles.scss'
-import WebElement from "../../lib/helpers/WebElement";
+import WebElement from "../../lib/WebElement";
 
 const formAction =
   process.env.NODE_ENV === "production"

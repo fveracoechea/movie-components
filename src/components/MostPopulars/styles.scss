@@ -1,5 +1,14 @@
 .heading {
   padding: 1.2rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 .heading h2 {
   font-size: 2rem;

@@ -12,31 +12,43 @@ const getPageHBS = (page) =>
 const getPages = () => {
   const pages = fs.readdirSync(pagesPath);
 
-  return pages.map((page) => {
-    const hasTSfile = fs.existsSync(getPageTS(page));
-    const hasHBSfile = fs.existsSync(getPageHBS(page));
+  return pages.reduce(
+    (settings, page) => {
+      const hasTSfile = fs.existsSync(getPageTS(page));
+      const hasHBSfile = fs.existsSync(getPageHBS(page));
 
-    if (!hasTSfile) {
-      throw new Error(`Missing typescript file for ${page} page`);
-    }
-    if (!hasHBSfile) {
-      throw new Error(`Missing handlebars file for ${page} page`);
-    }
+      if (!hasTSfile) {
+        throw new Error(`Missing typescript file for ${page} page`);
+      }
+      if (!hasHBSfile) {
+        throw new Error(`Missing handlebars file for ${page} page`);
+      }
+      const pageName = page.toLowerCase()
+      const filename =
+        page === "Home" ? "index.html" : `${pageName}.html`;
 
-    const filename =
-      page === "Home" ? "index.html" : `${page.toLowerCase()}.html`;
-
-    return {
-      filename,
-      template: getPageHBS(page),
-      chunks: [page.toLowerCase()],
-      templateParameters: {
-        title: `${page} - Movie Components`,
-        pageName: page,
-        filename,
-      },
-    };
-  });
+      return {
+        entries: {
+          ...settings.entries,
+          [pageName]: getPageTS(page),
+        },  
+        pages: [
+          ...settings.pages,
+          {
+            filename,
+            template: getPageHBS(page),
+            chunks: [pageName],
+            templateParameters: {
+              title: `${page} - Movie Components`,
+              pageName: page,
+              filename,
+            },
+          },
+        ],
+      };
+    },
+    { pages: [], entries: {} }
+  );
 };
 
 module.exports = getPages;

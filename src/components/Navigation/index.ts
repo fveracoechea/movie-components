@@ -1,5 +1,5 @@
 import { distinctUntilChanged, fromEvent, map } from "rxjs";
-import WebElement from "../../lib/helpers/WebElement";
+import WebElement from "../../lib/WebElement";
 import template from "./template.hbs";
 import css from './styles.scss'
 
@@ -14,15 +14,15 @@ const navLinks = [
   },
   {
     href: "/",
-    text: "Now Playing",
-  },
-  {
-    href: "/",
-    text: "Upcoming",
-  },
-  {
-    href: "/",
     text: "trending",
+  },
+  {
+    href: "/",
+    text: "people",
+  },
+  {
+    href: "/",
+    text: "search",
   },
 ].map((link) =>
   process.env.NODE_ENV === "production"

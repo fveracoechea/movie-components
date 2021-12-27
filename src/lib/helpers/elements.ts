@@ -5,7 +5,15 @@ type ChangedAttribute = {
   newValue: string;
 };
 
+export const isProduction = () => process.env.NODE_ENV === "production";
+
 const noop = (values: ChangedAttribute) => {};
+
+export function removeAllChildNodes(parent: ShadowRoot | HTMLElement) {
+  while (parent.firstChild) {
+    parent.removeChild(parent.firstChild);
+  }
+}
 
 export const createAttributeChangeCallback =
   (

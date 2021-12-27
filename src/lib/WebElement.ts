@@ -1,3 +1,9 @@
+import get from "lodash/get";
+import isEqual from "lodash/isEqual";
+import { distinctUntilChanged, Subscription, of, switchMap } from "rxjs";
+import { Action } from "./web-epic/types";
+import store from "./store";
+
 type Callback<A, B> = (param: A) => B;
 
 type ChangedAttribute = {
@@ -11,16 +17,36 @@ export type OnAttributeChange = {
   defaultCase: (values: ChangedAttribute) => void;
 } | null;
 
+export type OnStateChange = (key: string, value: unknown, getState: () => unknown) => void;
+
 export interface WebElement {
   onAttributeChange: OnAttributeChange;
+  onStateChange?: OnStateChange;
   connectedCallback?(): void;
   disconnectedCallback?(): void;
   adoptedCallback?(): void;
 }
 
+const subscribe = (key: string, next: (state: any) => void, path?: string) => {
+  return store.state$
+    .pipe(
+      switchMap((state) => {
+        return of(path
+          ? get(state, path, null)
+          : state[key as keyof typeof state] || null);
+      }),
+      distinctUntilChanged((prev, current) => isEqual(prev, current))
+    )
+    .subscribe({
+      next,
+    });
+};
+
 export class WebElement extends HTMLElement {
   elements: Record<string, HTMLElement>;
   nodeLists: Record<string, NodeListOf<HTMLElement>>;
+  subscriptions: Record<string, Subscription> = {};
+  state: Record<string, unknown> = {};
 
   constructor() {
     super();
@@ -35,6 +61,20 @@ export class WebElement extends HTMLElement {
     this.shadowRoot!.appendChild($template.content.cloneNode(true));
   }
 
+  dispatch<P = unknown>(action: Action<P>) {
+    store.dispatch(action);
+  }
+
+  subscribe(key: string, path?: string) {
+    const next = (state: any) => {
+      this.state[key] = state;
+      if (this.onStateChange) {
+        this.onStateChange(key, state, store.getState);
+      }
+    };
+    this.subscriptions[key] = subscribe(key, next, path);
+  }
+
   noop = (values: ChangedAttribute) => {};
 
   setElementByClass(className: string, all = false) {
@@ -47,6 +87,12 @@ export class WebElement extends HTMLElement {
       this.elements[className] = this.shadowRoot.querySelector(
         `.${className}`
       )!;
+    }
+  }
+
+  setElementByTagName(tag: string) {
+    if (this.isShadowRootDefined(this.shadowRoot)) {
+      this.elements[tag] = this.shadowRoot.querySelector(tag)!;
     }
   }
 

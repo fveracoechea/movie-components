@@ -1,4 +1,4 @@
-import WebElement from "../../lib/helpers/WebElement";
+import WebElement from "../../lib/WebElement";
 import template from "./template.hbs";
 
 const html = template({})

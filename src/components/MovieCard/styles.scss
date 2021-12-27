@@ -14,9 +14,18 @@
     width: 100%;
     overflow: hidden;
   }
+  position: relative;
 }
 
 .movie-card {
+  .movie-link {
+    color: #4b4b4b;
+    text-decoration: none;
+    transition: var(--transition);
+    &:hover {
+      color: var(--c-primary-dark);
+    }
+  }
   .title {
     font-size: 1.4rem;
   }
