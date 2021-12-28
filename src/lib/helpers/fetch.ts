@@ -12,7 +12,7 @@ export const sleep = (wait: number) =>
  * Non-flicker data loader (function wrapper), prevents UI flashes when data loads too fast
  */
 export const withoutFlickering =
-  <A, B>(callback: Callback<A, B>, minimunWait = 1200, enabled = true) =>
+  <A, B>(callback: Callback<A, B>, minimunWait = 1800, enabled = true) =>
   async (...args: A[]) => {
     const time = Date.now();
     const result = await callback(...args);

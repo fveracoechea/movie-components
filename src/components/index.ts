@@ -7,6 +7,7 @@ import SearchInput from "./SearchInput";
 import MovieCard from "./MovieCard";
 import MostPopulars from "./MostPopulars";
 import MovieBanner from "./MovieBanner";
+import MovieLoader from "./MovieLoader";
 import Button from "./Button";
 import Loader from "./Loader";
 import Score from "./Score";
@@ -23,6 +24,7 @@ export const defineComponents = () => {
   customElements.define("mc-footer-content", Footer);
   customElements.define("mc-movie-card", MovieCard);
   customElements.define("mc-most-populars", MostPopulars);
+  customElements.define("mc-movie-loader", MovieLoader);
   customElements.define("mc-movie-banner", MovieBanner);
   customElements.define("mc-button", Button);
   customElements.define("mc-loader", Loader);

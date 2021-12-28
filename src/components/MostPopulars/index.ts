@@ -5,10 +5,9 @@ import template from "./template.hbs";
 import css from "./styles.scss";
 import Button from "../Button";
 import { removeAllChildNodes } from "../../lib/helpers/elements";
-import { withoutFlickering } from "../../lib/helpers/fetch";
 import { ResultsEntityProxy } from "../../lib/types/MoviesProxy";
 
-type FetchType = "now_playing" | "top_rated" | "upcoming";
+type FetchType = "now_playing" | "top_rated" | "upcoming" | "initialize";
 
 type ButtonData = {
   active: boolean;
@@ -52,7 +51,7 @@ class MostPopulars extends WebElement {
   connectedCallback() {
     this.setLoader();
     this.setButtonListeners();
-    withoutFlickering(this.fetchMovies)("now_playing").then(({ results }) => {
+    this.fetchMovies("initialize").then(({ results }) => {
       if (results) {
         this.addCards(results);
       }
@@ -77,7 +76,7 @@ class MostPopulars extends WebElement {
     });
   }
 
-  fetchMovies(type: FetchType) {
+  async fetchMovies(type: FetchType) {
     switch (type) {
       case "now_playing":
         return tmdb.movie.nowPlaying();
@@ -89,7 +88,12 @@ class MostPopulars extends WebElement {
         return tmdb.movie.upComing();
 
       default:
-        return tmdb.movie.nowPlaying();
+        const [result] = await Promise.all([
+          tmdb.movie.nowPlaying(),
+          tmdb.movie.topRated(),
+          tmdb.movie.upComing(),
+        ]);
+        return result;
     }
   }
 

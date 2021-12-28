@@ -1,7 +1,10 @@
 import { distinctUntilChanged, fromEvent, map } from "rxjs";
 import WebElement from "../../lib/WebElement";
 import template from "./template.hbs";
-import css from './styles.scss'
+import css from "./styles.scss";
+import { isProduction } from "../../lib/helpers/elements";
+
+const homeLink = isProduction() ? "/movie-components/" : "/";
 
 const navLinks = [
   {
@@ -25,7 +28,7 @@ const navLinks = [
     text: "search",
   },
 ].map((link) =>
-  process.env.NODE_ENV === "production"
+  isProduction()
     ? {
         ...link,
         href: `/movie-components${link.href}`,
@@ -33,11 +36,11 @@ const navLinks = [
     : link
 );
 
-const html = template({ navLinks, css })
+const html = template({ navLinks, css, homeLink });
 
 const onWindowScroll$ = fromEvent(window, "scroll").pipe(
   map(() => {
-    if (window.scrollY > 480) {
+    if (window.scrollY > 100) {
       return "rgba(0,0,0,.8)";
     }
     return "rgba(0,0,0,0)";

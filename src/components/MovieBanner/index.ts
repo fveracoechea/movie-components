@@ -53,15 +53,13 @@ class MovieBanner extends WebElement {
 
   setLoader(show = true) {
     if (show && this.shadowRoot) {
-      this.shadowRoot.querySelector("mc-loader")?.remove();
-      this.elements.poster.style.display = "none";
-      this.elements.content.style.display = "none";
-      const loader = document.createElement("mc-loader");
-      this.elements.wrapper.appendChild(loader);
+      this.shadowRoot.querySelector("mc-movie-loader")?.remove();
+      this.elements.wrapper.style.display = "none";
+      const loader = document.createElement("mc-movie-loader");
+      this.shadowRoot.appendChild(loader);
     } else if (this.shadowRoot) {
-      this.shadowRoot.querySelector("mc-loader")?.remove();
-      this.elements.poster.style.display = "block";
-      this.elements.content.style.display = "flex";
+      this.shadowRoot.querySelector("mc-movie-loader")?.remove();
+      this.elements.wrapper.style.display = "flex";
     }
   }
 }

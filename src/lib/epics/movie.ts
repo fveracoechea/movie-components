@@ -3,13 +3,19 @@ import { MovieProxy } from "../types/MovieProxy";
 import { mergeMap, from, tap } from "rxjs";
 import tmdb from "../tmdb";
 import { withoutFlickering } from "../helpers/fetch";
+import { isProduction } from "../helpers/elements";
 
 export type MovieEpic = {
   status: "idle" | "loading" | "done";
   data: MovieProxy | null;
 };
 
-type Payload = {
+export const onError = () => {
+  const notFound = isProduction() ? "/movie-components/404.html" : "/404.html";
+  window.location.replace(notFound);
+};
+
+type FetchPayload = {
   id: string;
 };
 
@@ -18,7 +24,7 @@ export const initialState: MovieEpic = {
   data: null,
 };
 
-const findById = (id: string) => withoutFlickering((id: string) => tmdb.movie.findOne(id), 1200)(id);
+const findById = (id: string) => withoutFlickering(() => tmdb.movie.findOne(id))();
 
 export const epic: Epic<MovieEpic, null> = ({
   ofType,
@@ -27,7 +33,7 @@ export const epic: Epic<MovieEpic, null> = ({
   dispatch,
 }) => {
   // fetch action
-  const fetch$ = ofType<Payload>("movie/fetch").pipe(
+  const fetch$ = ofType<FetchPayload>("movie/fetch").pipe(
     tap(() => dispatch({ type: "movie/loading" })),
     mergeMap(([{ payload }]) =>
       from(findById(payload!.id)).pipe(
