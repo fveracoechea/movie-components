@@ -1,13 +1,6 @@
 import { MoviesProxy } from "./types/MoviesProxy";
 import { MovieProxy } from "./types/MovieProxy";
-
-const toQueryString = (query: Record<string, string>) => {
-  return Object.entries(query).reduce((qs, [key, value], i, entries) => {
-    return i === entries.length - 1
-      ? `${qs}${key}=${value}`
-      : `${qs}${key}=${value}&`;
-  }, "?");
-};
+import { toQueryString } from "./helpers/elements";
 
 const tmdb = {
   get(path: string) {
@@ -25,6 +18,9 @@ const tmdb = {
   movie: {
     findOne(movieID: string) {
       return tmdb.get(`/movie/${movieID}`).then(MovieProxy.Create)
+    },
+    keywords(movieID: string) {
+      return tmdb.get(`/movie/${movieID}/keywords`)
     },
     discover(query: Record<string, string>) {
       return tmdb.get(`/discover/movie${toQueryString(query)}`);
