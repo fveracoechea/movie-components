@@ -1,10 +1,8 @@
 import { distinctUntilChanged, fromEvent, map } from "rxjs";
 import WebElement from "../../lib/WebElement";
-import template from "./template.hbs";
+import html from "./template.html";
 import css from "./styles.scss";
-import { isProduction } from "../../lib/helpers/elements";
-
-const homeLink = isProduction() ? "/movie-components/" : "/";
+import { getUrl, isProduction } from "../../lib/helpers/elements";
 
 const navLinks = [
   {
@@ -27,16 +25,10 @@ const navLinks = [
     href: "/",
     text: "search",
   },
-].map((link) =>
-  isProduction()
-    ? {
-        ...link,
-        href: `/movie-components${link.href}`,
-      }
-    : link
-);
-
-const html = template({ navLinks, css, homeLink });
+].map((link) => ({
+  ...link,
+  href: getUrl(link.href),
+}));
 
 const onWindowScroll$ = fromEvent(window, "scroll").pipe(
   map(() => {
@@ -51,10 +43,17 @@ const onWindowScroll$ = fromEvent(window, "scroll").pipe(
 class Article extends WebElement {
   constructor() {
     super();
-    this.initialize(html);
+    this.initialize(html, css);
+    this.setElementByClass("nav-bar");
+    this.setElementByClass("home-link");
   }
 
   connectedCallback() {
+    this.renderNav();
+    this.elements["home-link"].setAttribute(
+      "href",
+      isProduction() ? "/movie-components/" : "/"
+    );
     onWindowScroll$.subscribe({
       next: (backgroundColor) => {
         const nav = this.shadowRoot!.querySelector("nav");
@@ -68,6 +67,21 @@ class Article extends WebElement {
           h1!.style.fontSize = "1.2rem";
         }
       },
+    });
+  }
+
+  renderNav() {
+    navLinks.forEach(({ href, text }) => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      const span = document.createElement("span");
+
+      a.href = href;
+      a.textContent = text;
+
+      li.appendChild(a);
+      li.appendChild(span);
+      this.elements["nav-bar"].appendChild(li);
     });
   }
 }

@@ -15,8 +15,12 @@ export const toQueryString = (query: Record<string, string | number>) => {
   }, "?");
 };
 
-export const getUrl = (path: string, query: Record<string, string | number> = {}) => {
-  const url = isProduction() ? `/movie-components${path}.html` : `${path}.html`;
+export const getUrl = (
+  path: string,
+  query: Record<string, string | number> = {}
+) => {
+  const ext = path === "/" ? "" : ".html";
+  const url = isProduction() ? `/movie-components${path}${ext}` : `${path}${ext}`;
   return `${url}${toQueryString(query)}`;
 };
 

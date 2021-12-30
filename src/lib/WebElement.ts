@@ -17,7 +17,11 @@ export type OnAttributeChange = {
   defaultCase: (values: ChangedAttribute) => void;
 } | null;
 
-export type OnStateChange = (key: string, value: unknown, getState: () => unknown) => void;
+export type OnStateChange = (
+  key: string,
+  value: unknown,
+  getState: () => unknown
+) => void;
 
 export interface WebElement {
   onAttributeChange: OnAttributeChange;
@@ -31,9 +35,11 @@ const subscribe = (key: string, next: (state: any) => void, path?: string) => {
   return store.state$
     .pipe(
       switchMap((state) => {
-        return of(path
-          ? get(state, path, null)
-          : state[key as keyof typeof state] || null);
+        return of(
+          path
+            ? get(state, path, null)
+            : state[key as keyof typeof state] || null
+        );
       }),
       distinctUntilChanged((prev, current) => isEqual(prev, current))
     )
@@ -54,10 +60,18 @@ export class WebElement extends HTMLElement {
     this.nodeLists = {};
   }
 
-  initialize(html: string) {
+  initialize(html: string, css?: string) {
     this.attachShadow({ mode: "open" });
     const $template = document.createElement("template");
-    $template.innerHTML = html;
+    if (css) {
+      $template.innerHTML = `
+        <link rel="stylesheet" href="styles/global.css">
+        <link rel="stylesheet" href="${css}">
+        ${html}
+      `;
+    } else {
+      $template.innerHTML = html;
+    }
     this.shadowRoot!.appendChild($template.content.cloneNode(true));
   }
 
@@ -76,6 +90,18 @@ export class WebElement extends HTMLElement {
   }
 
   noop = (values: ChangedAttribute) => {};
+
+  getElement(selector: string, name: string) {
+    if (this.shadowRoot) {
+      this.elements[name] = this.shadowRoot.querySelector(selector)!;
+    }
+  }
+
+  getElementList(selector: string, name: string) {
+    if (this.shadowRoot) {
+      this.nodeLists[name] = this.shadowRoot.querySelectorAll(selector)!;
+    }
+  }
 
   setElementByClass(className: string, all = false) {
     if (this.isShadowRootDefined(this.shadowRoot)) {

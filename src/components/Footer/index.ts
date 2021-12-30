@@ -1,9 +1,7 @@
-import template from "./template.hbs";
+import html from "./template.html";
 import css from './styles.scss'
 import WebElement from "../../lib/WebElement";
-import tmdbLogo from '../../images/tmdb-logo.svg'
 
-const html = template({ tmdbLogo, css });
 
 class Footer extends WebElement {
   static get observedAttributes() {
@@ -12,7 +10,7 @@ class Footer extends WebElement {
 
   constructor() {
     super();
-    this.initialize(html);
+    this.initialize(html, css);
   }
 }
 

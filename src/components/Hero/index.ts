@@ -1,8 +1,6 @@
-import template from "./template.hbs";
+import html from "./template.html";
 import css from './styles.scss'
 import WebElement, { OnAttributeChange } from "../../lib/WebElement";
-
-const html = template({ css })
 
 class Hero extends WebElement {
   static get observedAttributes() {
@@ -11,7 +9,7 @@ class Hero extends WebElement {
 
   constructor() {
     super();
-    this.initialize(html);
+    this.initialize(html, css);
     this.setElementByClass("heading");
     this.setElementByClass("wrapper");
     this.setElementByClass("description");

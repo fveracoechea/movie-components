@@ -1,15 +1,13 @@
 import WebElement from "../../lib/WebElement";
 import css from "./styles.scss";
-import template from "./template.hbs";
-
-const html = template({ css });
+import html from "./template.html";
 
 class Button extends WebElement {
   clickEvent: CustomEvent = new CustomEvent("button-click");
 
   constructor() {
     super();
-    this.initialize(html);
+    this.initialize(html, css);
     const $button = this.shadowRoot?.querySelector("button");
     if ($button) {
       this.elements.button = $button;

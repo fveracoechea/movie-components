@@ -13,9 +13,6 @@ import Loader from "./Loader";
 import Score from "./Score";
 import Skeleton from "./Skeleton";
 
-// global styles
-import "../global.css";
-
 export const defineComponents = () => {
   // initialization
   customElements.define("mc-article", Article);

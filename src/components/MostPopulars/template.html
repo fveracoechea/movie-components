@@ -1,13 +1,7 @@
-{{> styles }}
 <div class="most-popular">
   <div class="heading">
     <h2>Most relevant movies</h2>
     <div class="buttons">
-      {{#each buttons }}
-        <mc-button active="{{this.active}}" name="{{this.name}}">
-          {{this.slot}}
-        </mc-button>
-      {{/each }}
     </div>
   </div>
   <div class="cardsWrapper">

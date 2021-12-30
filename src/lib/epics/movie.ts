@@ -1,6 +1,6 @@
 import { Epic } from "../web-epic/types";
 import { MovieProxy } from "../types/MovieProxy";
-import { mergeMap, from, tap } from "rxjs";
+import { mergeMap, from, tap, map } from "rxjs";
 import tmdb from "../tmdb";
 import { isProduction } from "../helpers/elements";
 
@@ -29,7 +29,6 @@ export const initialState: MovieEpic = {
 
 export const epic: Epic<MovieEpic, null> = ({
   ofType,
-  map,
   merge,
   dispatch,
 }) => {

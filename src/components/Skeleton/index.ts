@@ -1,8 +1,7 @@
-import template from "./template.hbs";
+import html from "./template.html";
 import css from "./styles.scss";
 import WebElement, { OnAttributeChange } from "../../lib/WebElement";
 
-const html = template({ css });
 
 const types = ["h2", "h3", "h4", "p", "img"];
 
@@ -12,7 +11,7 @@ class Skeleton extends WebElement {
   }
   constructor() {
     super();
-    this.initialize(html);
+    this.initialize(html, css);
     this.setElementByClass("skeleton");
   }
 

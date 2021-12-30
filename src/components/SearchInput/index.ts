@@ -1,5 +1,5 @@
-import template from "./template.hbs";
-import css from './styles.scss'
+import html from "./template.html";
+import css from "./styles.scss";
 import WebElement from "../../lib/WebElement";
 
 const formAction =
@@ -7,16 +7,12 @@ const formAction =
     ? "/movie-components/search.html"
     : "/search.html";
 
-const html = template({ formAction, css });
-
 class SearchInput extends WebElement {
-  static get observedAttributes() {
-    return ["heading", "image", "description"];
-  }
-
   constructor() {
     super();
-    this.initialize(html);
+    this.initialize(html, css);
+    this.getElement("#search-form", 'form');
+    this.elements.form.setAttribute('action', formAction)
   }
 }
 

@@ -1,4 +1,4 @@
-import template from "./template.hbs";
+import html from "./template.html";
 import css from "./styles.scss";
 import WebElement, { OnStateChange } from "../../lib/WebElement";
 import { MovieEpic } from "../../lib/epics/movie";
@@ -8,12 +8,10 @@ import { getUrl } from "../../lib/helpers/elements";
 import { format } from "date-fns";
 import { timeConvert } from "../../lib/helpers/date";
 
-const html = template({ css });
-
 class MovieBanner extends WebElement {
   constructor() {
     super();
-    this.initialize(html);
+    this.initialize(html, css);
     this.setElementByClass("heading");
     this.setElementByClass("tagline");
     this.setElementByClass("wrapper");

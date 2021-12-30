@@ -1,10 +1,8 @@
 import WebElement from "../../lib/WebElement";
-import template from "./template.hbs";
+import html from "./template.html";
 import css from "./styles.scss";
 import { format } from "date-fns";
 import { isProduction } from "../../lib/helpers/elements";
-
-const html = template({ css });
 
 const moviePageURL = isProduction()
   ? "/movie-components/movie.html"
@@ -21,7 +19,7 @@ type MovieCardData = {
 class MovieCard extends WebElement {
   constructor() {
     super();
-    this.initialize(html);
+    this.initialize(html, css);
     this.setElementByClass("poster");
     this.setElementByClass("title");
     this.setElementByClass("date");

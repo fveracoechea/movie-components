@@ -1,7 +1,7 @@
 import WebElement from "../../lib/WebElement";
 import tmdb from "../../lib/tmdb";
 import MovieCard from "../MovieCard";
-import template from "./template.hbs";
+import html from "./template.html";
 import css from "./styles.scss";
 import Button from "../Button";
 import { removeAllChildNodes } from "../../lib/helpers/elements";
@@ -33,8 +33,6 @@ const buttons: ButtonData[] = [
   },
 ];
 
-const html = template({ css, buttons });
-
 const isDefined = (btn: any): btn is Button => {
   return Boolean(btn);
 };
@@ -44,12 +42,14 @@ class MostPopulars extends WebElement {
 
   constructor() {
     super();
-    this.initialize(html);
+    this.initialize(html, css);
     this.setElementByClass("cardsWrapper");
+    this.setElementByClass("buttons");
   }
 
   connectedCallback() {
     this.setLoader();
+    this.renderButtons();
     this.setButtonListeners();
     this.fetchMovies("initialize").then(({ results }) => {
       if (results) {
@@ -107,6 +107,16 @@ class MostPopulars extends WebElement {
         }
       });
     };
+  }
+
+  renderButtons() {
+    buttons.forEach((b) => {
+      const button = document.createElement("mc-button");
+      button.setAttribute("active", String(b.active));
+      button.setAttribute("name", b.name);
+      button.textContent = b.slot;
+      this.elements.buttons.appendChild(button);
+    });
   }
 
   getButtons() {

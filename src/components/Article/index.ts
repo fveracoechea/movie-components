@@ -1,7 +1,5 @@
 import WebElement from "../../lib/WebElement";
-import template from "./template.hbs";
-
-const html = template({})
+import html from "./template.html";
 
 class Article extends WebElement {
   constructor() {

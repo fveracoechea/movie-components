@@ -1,8 +1,6 @@
 import WebElement, { OnAttributeChange } from "../../lib/WebElement";
 import css from "./styles.scss";
-import template from "./template.hbs";
-
-const html = template({ css });
+import html from "./template.html";
 
 class Score extends WebElement {
   static get observedAttributes() {
@@ -11,7 +9,7 @@ class Score extends WebElement {
 
   constructor() {
     super();
-    this.initialize(html);
+    this.initialize(html, css);
     this.setElementByClass("pie-wrapper");
     this.setElementByClass("score-value");
   }

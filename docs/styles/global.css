@@ -6,6 +6,7 @@
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
   z-index: 1;
+  font-weight: 300;
 }
 
 
@@ -20,11 +21,13 @@ html, body {
   font-family: "Roboto", sans-serif;
   color: #2b2b2b;
 }
+
 @media (max-width: 1024px) {
   html, body {
     font-size: 14px;
   }
 }
+
 @media (max-width: 660px) {
   html, body {
     font-size: 14px;
@@ -60,4 +63,3 @@ p {
   max-width: 1400px;
   margin: 0 auto;
 }
-

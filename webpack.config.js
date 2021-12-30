@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WebpackBar = require("webpackbar");
 const Dotenv = require("dotenv-webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 // helpers
 const { supportedLocales } = require("./date-fns");
@@ -50,6 +51,10 @@ module.exports = (env) => ({
         ],
       },
       {
+        test: /\.html$/i,
+        use: ["raw-loader"],
+      },
+      {
         test: /\.(png|jpe?g|gif|svg)$/i,
         loader: "file-loader",
         options: {
@@ -66,6 +71,12 @@ module.exports = (env) => ({
     ],
   },
   plugins: [
+    new CopyPlugin({
+      patterns: [
+        { from: "src/images", to: "images" },
+        { from: "src/global.css", to: "styles/global.css" },
+      ],
+    }),
     new Dotenv(),
     new MiniCssExtractPlugin({
       filename: "./styles/global.css",
