@@ -2,12 +2,14 @@ import { Epic } from "../web-epic/types";
 import { MovieProxy } from "../types/MovieProxy";
 import { mergeMap, from, tap } from "rxjs";
 import tmdb from "../tmdb";
-import { withoutFlickering } from "../helpers/fetch";
 import { isProduction } from "../helpers/elements";
+
+export type Keyword = { id: number; name: string };
 
 export type MovieEpic = {
   status: "idle" | "loading" | "done";
   data: MovieProxy | null;
+  keywords: Keyword[] | null;
 };
 
 export const onError = () => {
@@ -22,9 +24,8 @@ type FetchPayload = {
 export const initialState: MovieEpic = {
   status: "idle",
   data: null,
+  keywords: null,
 };
-
-const findById = (id: string) => withoutFlickering(() => tmdb.movie.findOne(id))();
 
 export const epic: Epic<MovieEpic, null> = ({
   ofType,
@@ -35,11 +36,13 @@ export const epic: Epic<MovieEpic, null> = ({
   // fetch action
   const fetch$ = ofType<FetchPayload>("movie/fetch").pipe(
     tap(() => dispatch({ type: "movie/loading" })),
-    mergeMap(([{ payload }]) =>
-      from(findById(payload!.id)).pipe(
-        map((data) => ({
+    mergeMap(([{ payload }]) => from(tmdb.movie.findOne(payload!.id))),
+    mergeMap((data) =>
+      from(tmdb.movie.keywords(String(data.id))).pipe(
+        map(({ keywords }) => ({
           status: "done" as const,
           data,
+          keywords,
         }))
       )
     )

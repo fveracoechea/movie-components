@@ -14,7 +14,7 @@ const { pages, entries: entry } = getPages();
 module.exports = (env) => ({
   entry,
   mode: env.production ? "production" : "development",
-  devtool: env.production ? false : "source-map",
+  devtool: env.production ? false : "eval-source-map",
   devServer: {
     static: {
       directory: path.resolve(__dirname, "docs"),

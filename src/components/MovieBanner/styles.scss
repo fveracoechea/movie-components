@@ -3,7 +3,7 @@
   background-repeat: no-repeat;
   min-height: 650px;
   position: relative;
-  display: flex;
+  display: none;
   justify-content: center;
   background-position: right -200px -50px;
 
@@ -11,7 +11,7 @@
     background-image: linear-gradient(
       to right,
       rgb(51, 92, 125) 150px,
-      rgba(0,0,0, 0.8) 100%
+      rgba(0, 0, 0, 0.7) 100%
     );
     display: flex;
     justify-content: center;
@@ -28,13 +28,20 @@
       }
     }
 
+    .details {
+      min-height: 600px;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+    }
+
     .overview-wrapper {
       color: #e1e0e0;
       max-width: 800px;
 
       h4 {
         font-size: 1.4rem;
-        padding-bottom: 0;
+        padding-bottom: 1rem;
         font-weight: 300;
       }
       p {
@@ -42,8 +49,39 @@
       }
     }
 
-    mc-loader {
-      width: 100%;
+    .fatcs {
+      padding-top: 1rem;
+      align-self: flex-end;
+
+      .release-date {
+        font-size: 1rem;
+        color: #f2f2f2;
+        display: inline-block;
+        font-weight: 300;
+        &::after {
+          content: "-";
+          margin: 0 0.6rem;
+          display: inline-block;
+        }
+      }
+
+      .genre-link {
+        text-decoration: none;
+        font-size: 1rem;
+        color: #f2f2f2;
+        display: inline-block;
+        font-weight: 300;
+        transition: all 0.4s ease;
+        &:hover {
+          color: var(--c-primary);
+        }
+        &:not(:last-child) {
+          margin-right: 0.6rem;
+          &::after {
+            content: ",";
+          }
+        }
+      }
     }
   }
 
@@ -53,7 +91,8 @@
   }
 
   .tagline {
-    color: #a4a4a4;
+    color: #b4b4b4;
+    font-size: 1.8rem;
     padding-bottom: 1rem;
   }
 }

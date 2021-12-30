@@ -7,6 +7,19 @@ type ChangedAttribute = {
 
 export const isProduction = () => process.env.NODE_ENV === "production";
 
+export const toQueryString = (query: Record<string, string | number>) => {
+  return Object.entries(query).reduce((qs, [key, value], i, entries) => {
+    return i === entries.length - 1
+      ? `${qs}${key}=${value}`
+      : `${qs}${key}=${value}&`;
+  }, "?");
+};
+
+export const getUrl = (path: string, query: Record<string, string | number> = {}) => {
+  const url = isProduction() ? `/movie-components${path}.html` : `${path}.html`;
+  return `${url}${toQueryString(query)}`;
+};
+
 const noop = (values: ChangedAttribute) => {};
 
 export function removeAllChildNodes(parent: ShadowRoot | HTMLElement) {

@@ -3,6 +3,10 @@ import css from "./styles.scss";
 import WebElement, { OnStateChange } from "../../lib/WebElement";
 import { MovieEpic } from "../../lib/epics/movie";
 import tmdb from "../../lib/tmdb";
+import { MovieProxy } from "../../lib/types/MovieProxy";
+import { getUrl } from "../../lib/helpers/elements";
+import { format } from "date-fns";
+import { timeConvert } from "../../lib/helpers/date";
 
 const html = template({ css });
 
@@ -17,6 +21,8 @@ class MovieBanner extends WebElement {
     this.setElementByClass("content");
     this.setElementByClass("poster");
     this.setElementByClass("poster-img");
+    this.setElementByClass("fatcs");
+    this.setElementByClass("duration");
   }
 
   connectedCallback() {
@@ -30,19 +36,18 @@ class MovieBanner extends WebElement {
         if (status !== "done") {
           this.setLoader(true);
         } else if (data) {
+          console.log('data ', data)
           this.setLoader(false);
           this.elements.heading.textContent = data.title;
-          this.elements.tagline.textContent = data.tagline;
           this.elements.overview.textContent = data.overview;
-          this.elements["poster-img"].setAttribute(
-            "src",
-            tmdb.image(data.poster_path, "w500")
-          );
-          this.elements["poster-img"].setAttribute("alt", data.title);
-          this.elements.wrapper.style.backgroundImage = `url(${tmdb.image(
-            data.backdrop_path,
-            "original"
-          )})`;
+          if (data.tagline) {
+            this.elements.tagline.textContent = `${timeConvert(data.runtime)} - ${data.tagline}`;
+          } else {
+            this.elements.tagline.textContent = timeConvert(data.runtime);
+          }
+          this.addImages(data);
+          this.addReleaseData(data);
+          this.addGenres(data);
         }
         break;
 
@@ -60,6 +65,40 @@ class MovieBanner extends WebElement {
     } else if (this.shadowRoot) {
       this.shadowRoot.querySelector("mc-movie-loader")?.remove();
       this.elements.wrapper.style.display = "flex";
+    }
+  }
+
+  private addImages(data: MovieProxy) {
+    this.elements["poster-img"].setAttribute(
+      "src",
+      tmdb.image(data.poster_path, "w500")
+    );
+    this.elements["poster-img"].setAttribute("alt", data.title);
+    this.elements.wrapper.style.backgroundImage = `url(${tmdb.image(
+      data.backdrop_path,
+      "original"
+    )})`;
+  }
+
+  private addReleaseData(data: MovieProxy) {
+    const element = document.createElement("span");
+    element.className = "release-date";
+    element.textContent = format(new Date(data.release_date), "MMMM d, yyyy");
+    this.elements.fatcs.appendChild(element);
+  }
+
+  private addGenres(data: MovieProxy) {
+    if (data?.genres) {
+      const element = document.createElement("span");
+      element.className = "genres";
+      data.genres.forEach(({ name, id }) => {
+        const link = document.createElement("a");
+        link.className = "genre-link";
+        link.href = getUrl("/genre", { id });
+        link.textContent = name;
+        element.appendChild(link);
+      });
+      this.elements.fatcs.appendChild(element);
     }
   }
 }

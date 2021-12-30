@@ -11,9 +11,10 @@ import MovieLoader from "./MovieLoader";
 import Button from "./Button";
 import Loader from "./Loader";
 import Score from "./Score";
+import Skeleton from "./Skeleton";
 
 // global styles
-import '../global.css'
+import "../global.css";
 
 export const defineComponents = () => {
   // initialization
@@ -29,6 +30,7 @@ export const defineComponents = () => {
   customElements.define("mc-button", Button);
   customElements.define("mc-loader", Loader);
   customElements.define("mc-score", Score);
+  customElements.define("mc-skeleton", Skeleton);
 
   return { Article, Hero, Navigation, Footer, SearchInput, Button };
 };
