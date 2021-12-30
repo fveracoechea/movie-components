@@ -30,65 +30,9 @@
       width: 40%;
     }
 
-    .skeleton {
-      display: inline-block;
-      height: 1em;
-      width: 100%;
-      position: relative;
-      overflow: hidden;
-      background-color: rgba(190, 190, 190, 0.5);
-      border-radius: 6px;
-      margin-top: 2rem;
-      cursor: wait;
-
-      &::after {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        transform: translateX(-100%);
-        background-image: linear-gradient(
-          90deg,
-          rgba(#f2f2f2, 0) 0,
-          rgba(#f2f2f2, 0.2) 20%,
-          rgba(#f2f2f2, 0.5) 60%,
-          rgba(#f2f2f2, 0)
-        );
-        animation: shimmer 1s infinite;
-        content: "";
-      }
-
-      &.h2 {
-        height: 5rem;
-        width: 70%;
-      }
-      &.h3 {
-        height: 3.6rem;
-        width: 50%;
-      }
-      &.h4 {
-        height: 1.8rem;
-        width: 90%;
-      }
-      &.p {
-        height: 1.8rem;
-        width: 100%;
-      }
-      &.img {
-        height: 30rem;
-      }
-    }
-
     .overview-wrapper {
       color: #e1e0e0;
       max-width: 800px;
     }
-  }
-}
-
-@keyframes shimmer {
-  100% {
-    transform: translateX(100%);
   }
 }
