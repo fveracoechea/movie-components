@@ -1,0 +1,20 @@
+:host {
+  width: 100%;
+}
+
+.wrapper {
+  padding: 1rem 1rem 0 1rem;
+
+  .heading {
+    h4 {
+      font-size: 1rem;
+      font-weight: 400;
+      margin: 0;
+    }
+  }
+
+  p {
+    margin-bottom: 1rem;
+    color: #777;
+  }
+}

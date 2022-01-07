@@ -1,6 +1,10 @@
-import { MoviesProxy } from "./types/MoviesProxy";
-import { MovieProxy } from "./types/MovieProxy";
+// types
+import { Discover } from "./types/Discover";
+import { Keyword } from "./types/Keywords";
+import { Movie } from "./types/Movie";
+// helpers
 import { toQueryString } from "./helpers/elements";
+import { Credits } from './types/Credits';
 
 const tmdb = {
   get(path: string) {
@@ -8,36 +12,39 @@ const tmdb = {
       cache: "default",
       headers: {
         Accept: "application/json",
-        Authorization: `Bearer ${process.env.TMDB_AUTH_TOKEN}`,
-      },
+        Authorization: `Bearer ${process.env.TMDB_AUTH_TOKEN}`
+      }
     }).then((response) => response.json());
   },
   image(path: string, width = "w500") {
     return `${process.env.TMDB_IMAGE_URL}/${width}${path}`;
   },
   movie: {
-    findOne(movieID: string) {
-      return tmdb.get(`/movie/${movieID}`).then(MovieProxy.Create)
+    credits(movieID: string): Promise<Credits> {
+      return tmdb.get(`/movie/${movieID}/credits`);
     },
-    keywords(movieID: string) {
-      return tmdb.get(`/movie/${movieID}/keywords`)
+    findOne(movieID: string): Promise<Movie> {
+      return tmdb.get(`/movie/${movieID}`);
+    },
+    keywords(movieID: string): Promise<Keyword> {
+      return tmdb.get(`/movie/${movieID}/keywords`);
     },
     discover(query: Record<string, string>) {
       return tmdb.get(`/discover/movie${toQueryString(query)}`);
     },
-    mostPopular() {
-      return tmdb.get("/movie/popular").then(MoviesProxy.Create);
+    mostPopular(): Promise<Discover> {
+      return tmdb.get("/movie/popular");
     },
-    nowPlaying() {
-      return tmdb.get("/movie/now_playing").then(MoviesProxy.Create);;
+    nowPlaying(query: Record<string, string> = {}): Promise<Discover> {
+      return tmdb.get(`/movie/now_playing${toQueryString(query)}`);
     },
-    topRated() {
-      return tmdb.get("/movie/top_rated").then(MoviesProxy.Create);;
+    topRated(query: Record<string, string> = {}): Promise<Discover> {
+      return tmdb.get(`/movie/top_rated${toQueryString(query)}`);
     },
-    upComing() {
-      return tmdb.get("/movie/upcoming").then(MoviesProxy.Create);;
-    },
-  },
+    upComing(query: Record<string, string> = {}): Promise<Discover> {
+      return tmdb.get(`/movie/upcoming${toQueryString(query)}`);
+    }
+  }
 };
 
 export default tmdb;

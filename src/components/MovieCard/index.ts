@@ -2,7 +2,7 @@ import WebElement from "../../lib/WebElement";
 import html from "./template.html";
 import css from "./styles.scss";
 import { format } from "date-fns";
-import { isProduction } from "../../lib/helpers/elements";
+import { isProduction, calculateRatio } from '../../lib/helpers/elements';
 
 const moviePageURL = isProduction()
   ? "/movie-components/movie.html"
@@ -15,6 +15,8 @@ type MovieCardData = {
   id: number;
   vote_average: number;
 };
+
+const ratio = calculateRatio()
 
 class MovieCard extends WebElement {
   constructor() {
@@ -43,6 +45,7 @@ class MovieCard extends WebElement {
       link.setAttribute('href', `${moviePageURL}?id=${data.id}`)
     });
     this.id = `movie-card:${data.id}`;
+    this.$.imageBox.style.paddingBottom = `${ratio}%`;
   }
 }
 

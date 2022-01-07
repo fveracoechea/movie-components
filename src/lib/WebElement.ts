@@ -50,6 +50,7 @@ const subscribe = (key: string, next: (state: any) => void, path?: string) => {
 
 export class WebElement extends HTMLElement {
   elements: Record<string, HTMLElement>;
+  $: Record<string, HTMLElement>;
   nodeLists: Record<string, NodeListOf<HTMLElement>>;
   subscriptions: Record<string, Subscription> = {};
   state: Record<string, unknown> = {};
@@ -58,21 +59,27 @@ export class WebElement extends HTMLElement {
     super();
     this.elements = {};
     this.nodeLists = {};
+    this.$ = {}
   }
 
   initialize(html: string, css?: string) {
     this.attachShadow({ mode: "open" });
     const $template = document.createElement("template");
     if (css) {
-      $template.innerHTML = `
-        <link rel="stylesheet" href="styles/global.css">
-        <link rel="stylesheet" href="${css}">
-        ${html}
-      `;
+      $template.innerHTML = 
+      `<style>
+        @import "styles/global.css";
+        ${css}
+      </style>
+      ${html}`;
     } else {
       $template.innerHTML = html;
     }
-    this.shadowRoot!.appendChild($template.content.cloneNode(true));
+    if (this.shadowRoot) {
+      this.shadowRoot.appendChild($template.content.cloneNode(true));
+      const elements = this.shadowRoot.querySelectorAll<HTMLElement>("*[id]");
+      elements.forEach((el) => (this.$[el.id] = el));
+    }
   }
 
   dispatch<P = unknown>(action: Action<P>) {

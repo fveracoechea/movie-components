@@ -44,3 +44,8 @@ export const createAttributeChangeCallback =
     }
     return defaultCase(params);
   };
+
+export const calculateRatio = (height = 750, width = 500) => {
+  const ratio = (height / width) * 100
+  return Math.round((ratio + Number.EPSILON) * 100) / 100
+}

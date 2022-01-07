@@ -3,7 +3,7 @@ import css from "./styles.scss";
 import WebElement, { OnAttributeChange } from "../../lib/WebElement";
 
 
-const types = ["h2", "h3", "h4", "p", "img"];
+const types = ["h2", "h3", "h4", "p", "img", "img-small"];
 
 class Skeleton extends WebElement {
   static get observedAttributes() {

@@ -5,7 +5,7 @@ import html from "./template.html";
 import css from "./styles.scss";
 import Button from "../Button";
 import { removeAllChildNodes } from "../../lib/helpers/elements";
-import { ResultsEntityProxy } from "../../lib/types/MoviesProxy";
+import { ResultsEntity } from "../../lib/types/Discover";
 
 type FetchType = "now_playing" | "top_rated" | "upcoming" | "initialize";
 
@@ -19,18 +19,18 @@ const buttons: ButtonData[] = [
   {
     active: true,
     name: "now_playing",
-    slot: "In Theatres",
+    slot: "In Theatres"
   },
   {
     active: false,
     name: "top_rated",
-    slot: "Top Rated",
+    slot: "Top Rated"
   },
   {
     active: false,
     name: "upcoming",
-    slot: "Upcoming",
-  },
+    slot: "Upcoming"
+  }
 ];
 
 const isDefined = (btn: any): btn is Button => {
@@ -40,18 +40,31 @@ const isDefined = (btn: any): btn is Button => {
 class MostPopulars extends WebElement {
   onClickHandlers: ((e: any) => void)[] = [];
 
+  request = {
+    type: "initialize" as FetchType,
+    page: 1
+  };
+
   constructor() {
     super();
     this.initialize(html, css);
     this.setElementByClass("cardsWrapper");
     this.setElementByClass("buttons");
+    this.getElement("#most-populars", "section");
+    this.getElement('mc-button[name="load_more"]', "loadMoreBtn");
+    this.getElement('mc-button[name="go-up"]', "goUpBtn");
+
+    this.onLoadMore = this.onLoadMore.bind(this);
+    this.onGoUp = this.onGoUp.bind(this);
   }
 
   connectedCallback() {
     this.setLoader();
     this.renderButtons();
     this.setButtonListeners();
-    this.fetchMovies("initialize").then(({ results }) => {
+    this.elements.loadMoreBtn.addEventListener("button-click", this.onLoadMore);
+    this.elements.goUpBtn.addEventListener("button-click", this.onGoUp);
+    this.fetchMovies(this.request.type).then(({ results }) => {
       if (results) {
         this.addCards(results);
       }
@@ -76,22 +89,22 @@ class MostPopulars extends WebElement {
     });
   }
 
-  async fetchMovies(type: FetchType) {
+  async fetchMovies(type: FetchType, query?: Record<string, string>) {
     switch (type) {
       case "now_playing":
-        return tmdb.movie.nowPlaying();
+        return tmdb.movie.nowPlaying(query);
 
       case "top_rated":
-        return tmdb.movie.topRated();
+        return tmdb.movie.topRated(query);
 
       case "upcoming":
-        return tmdb.movie.upComing();
+        return tmdb.movie.upComing(query);
 
       default:
         const [result] = await Promise.all([
           tmdb.movie.nowPlaying(),
           tmdb.movie.topRated(),
-          tmdb.movie.upComing(),
+          tmdb.movie.upComing()
         ]);
         return result;
     }
@@ -101,6 +114,7 @@ class MostPopulars extends WebElement {
     return (e: any) => {
       btns.forEach((b) => b.inactivate());
       btn.activate();
+      this.request.type = e.detail.name;
       this.fetchMovies(e.detail.name).then(({ results }) => {
         if (results) {
           this.addCards(results);
@@ -134,8 +148,10 @@ class MostPopulars extends WebElement {
     this.elements.cardsWrapper.appendChild(loader);
   }
 
-  addCards(data: ResultsEntityProxy[]) {
-    removeAllChildNodes(this.elements.cardsWrapper);
+  addCards(data: ResultsEntity[], removeChildNodes = true) {
+    if (removeChildNodes) {
+      removeAllChildNodes(this.elements.cardsWrapper);
+    }
     this.elements.cardsWrapper.style.display = "flex";
     data.forEach((movie) => {
       const card = document.createElement("mc-movie-card") as MovieCard;
@@ -144,10 +160,29 @@ class MostPopulars extends WebElement {
         date: movie.release_date,
         poster: tmdb.image(movie.poster_path),
         id: movie.id,
-        vote_average: movie.vote_average,
+        vote_average: movie.vote_average
       });
       this.elements.cardsWrapper.appendChild(card);
     });
+  }
+
+  onLoadMore() {
+    this.request.page++;
+    const { type, page } = this.request;
+    this.fetchMovies(type === "initialize" ? "now_playing" : type, {
+      page: String(page)
+    }).then(({ results }) => {
+      if (results) {
+        this.addCards(results, false);
+      }
+    });
+  }
+
+  onGoUp() {
+    const offset = 76
+    const top =
+      this.elements.section.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: "smooth" });
   }
 }
 

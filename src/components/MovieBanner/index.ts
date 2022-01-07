@@ -3,7 +3,7 @@ import css from "./styles.scss";
 import WebElement, { OnStateChange } from "../../lib/WebElement";
 import { MovieEpic } from "../../lib/epics/movie";
 import tmdb from "../../lib/tmdb";
-import { MovieProxy } from "../../lib/types/MovieProxy";
+import { Movie } from "../../lib/types/Movie";
 import { getUrl } from "../../lib/helpers/elements";
 import { format } from "date-fns";
 import { timeConvert } from "../../lib/helpers/date";
@@ -66,7 +66,7 @@ class MovieBanner extends WebElement {
     }
   }
 
-  private addImages(data: MovieProxy) {
+  private addImages(data: Movie) {
     this.elements["poster-img"].setAttribute(
       "src",
       tmdb.image(data.poster_path, "w500")
@@ -78,14 +78,14 @@ class MovieBanner extends WebElement {
     )})`;
   }
 
-  private addReleaseData(data: MovieProxy) {
+  private addReleaseData(data: Movie) {
     const element = document.createElement("span");
     element.className = "release-date";
     element.textContent = format(new Date(data.release_date), "MMMM d, yyyy");
     this.elements.fatcs.appendChild(element);
   }
 
-  private addGenres(data: MovieProxy) {
+  private addGenres(data: Movie) {
     if (data?.genres) {
       const element = document.createElement("span");
       element.className = "genres";

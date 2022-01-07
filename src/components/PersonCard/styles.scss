@@ -1,0 +1,36 @@
+
+:host {
+  width: 100%;
+}
+
+.person-card {
+  // .image-box {
+  //   display: block;
+  //   position: relative;
+  //   height: 0px;
+  //   width: 100%;
+  //   background-color: #ddd;
+  // }
+
+  .person-link {
+    text-decoration: none;
+    transition: var(--transition);
+    p {
+      color: #2b2b2b;
+      font-size: 1.2rem;
+      margin-bottom: 0;
+      &:hover {
+        color: var(--c-primary-dark);
+        margin-bottom: 0;
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  figcaption {
+    p {
+      color: #777;
+      font-size: .8rem;
+    }
+  }
+}

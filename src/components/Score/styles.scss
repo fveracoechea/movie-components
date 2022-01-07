@@ -41,7 +41,7 @@ $label-font-size-redo: $default-size * 3.9;
 .charts-container {
   position: absolute;
   right: -0.4rem;
-  top: 25.8rem;
+  bottom: -1rem;
   background-image: linear-gradient(transparent, white 70%);
   border-top-left-radius: 50%;
   &:after {

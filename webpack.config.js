@@ -39,13 +39,14 @@ module.exports = (env) => ({
         test: /\.(scss|sass)$/i,
         use: [
           // Creates `style` nodes from JS strings
-          {
-            loader: "file-loader",
-            options: {
-              outputPath: "styles",
-              name: "[contenthash].css",
-            },
-          },
+          // {
+          //   loader: "file-loader",
+          //   options: {
+          //     outputPath: "styles",
+          //     name: "[contenthash].css",
+          //   },
+          // },
+          "raw-loader",
           // Compiles Sass to CSS
           "sass-loader",
         ],

@@ -9,7 +9,6 @@
   font-weight: 300;
 }
 
-
 :root {
   --c-primary: rgb(97, 169, 228);
   --c-primary-dark: steelblue;
@@ -62,4 +61,17 @@ p {
   padding: 0 1rem;
   max-width: 1400px;
   margin: 0 auto;
+}
+
+.flex-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.small-column {
+  width: 260px;
+}
+
+.main-column {
+  width: calc(100% - 280px);
 }

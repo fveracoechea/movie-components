@@ -1,0 +1,30 @@
+:host {
+  width: 100%;
+}
+
+.wrapper {
+  padding: 1rem;
+  
+
+  .heading {
+    h3 {
+      font-size: 1.4rem;
+      margin: 0;
+    }
+  }
+
+  .list {
+    display: flex;
+    list-style: none;
+    overflow-x: auto;
+    margin-right: -2rem;
+    padding-bottom: 1rem;
+
+    li {
+      padding-top: 1rem;
+      width: 14rem;
+      min-width: 14rem;
+      padding-right: 2rem;
+    }
+  }
+}

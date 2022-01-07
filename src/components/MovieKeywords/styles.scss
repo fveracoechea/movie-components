@@ -1,0 +1,28 @@
+:host {
+  width: 100%;
+}
+
+.wrapper {
+  padding: 0 1rem 1rem 1rem;
+
+  .heading {
+    h4 {
+      font-size: 1rem;
+      font-weight: 400;
+      margin: 0;
+    }
+  }
+
+  .list {
+    list-style: url("images/tag-icon.png");
+    li {
+      min-width: 14rem;
+      color: #777;
+      margin-left: 1rem;
+      margin-bottom: .6rem;
+      &:first-child {
+        margin-top: .6rem;
+      }
+    }
+  }
+}
