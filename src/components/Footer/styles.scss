@@ -1,12 +1,31 @@
 .footer-content {
   background-color: #f2f2f2;
+  padding: 2rem 0;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .copyright-wrapper {
+
+    .brand {
+      color: var(--c-primary-dark);
+      margin-right: 3rem;
+      font-size: 1.6rem;
+    }
+
+  }
+
 }
 .tmdb-info {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   flex-wrap: wrap;
-  padding: 2rem 0;
 }
 .tmdb-info img {
-  max-width: 120px;
+  max-width: 150px;
+  margin-bottom: .8rem;
+  display: block;
 }
