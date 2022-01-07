@@ -20,6 +20,9 @@ const tmdb = {
     return `${process.env.TMDB_IMAGE_URL}/${width}${path}`;
   },
   movie: {
+    reviews(movieID: string): Promise<any> {
+      return tmdb.get(`/movie/${movieID}/reviews`);
+    },
     credits(movieID: string): Promise<Credits> {
       return tmdb.get(`/movie/${movieID}/credits`);
     },

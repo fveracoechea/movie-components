@@ -16,6 +16,7 @@ import MovieKeywords from './MovieKeywords';
 import PersonCard from './PersonCard';
 import MovieCast from './MovieCast';
 import MovieFacts from './MovieFacts';
+import MovieReviews from './MovieReviews';
 
 export const defineComponents = () => {
   // define components
@@ -36,6 +37,7 @@ export const defineComponents = () => {
   customElements.define("mc-movie-keywords", MovieKeywords);
   customElements.define("mc-movie-cast", MovieCast);
   customElements.define("mc-movie-facts", MovieFacts);
+  customElements.define("mc-movie-reviews", MovieReviews);
 
   return { Article, Hero, Navigation, Footer, SearchInput, Button };
 };
