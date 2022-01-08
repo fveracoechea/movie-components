@@ -1,3 +1,5 @@
+@import "../../styles/helpers";
+
 :host {
   width: 100%;
 }
@@ -7,7 +9,7 @@
 
   .heading {
     h3 {
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       margin: 0;
     }
   }
@@ -15,5 +17,33 @@
   .loader {
     margin-bottom: 1rem;
     margin-top: 1rem;
+  }
+
+  .content {
+    .review {
+      background-image: linear-gradient(
+        rgba(0, 0, 0, 0.05),
+        rgba($primary_dark, 0.1)
+      );
+      padding: 1rem;
+      margin: 1.4rem 0;
+      overflow: hidden;
+
+      h4 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        b {
+          font-weight: 400;
+          color: var(--c-primary-dark);
+        }
+        span {
+          font-size: 0.8rem;
+        }
+      }
+
+      p {
+        line-height: 2rem;
+      }
+    }
   }
 }
