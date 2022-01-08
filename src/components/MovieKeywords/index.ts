@@ -18,7 +18,7 @@ class MovieKeywords extends WebElement {
   }
 
   onStateChange: OnStateChange = (key, value) => {
-    if (key === "keywords" && Array.isArray(value) && value.length > 0) {
+    if (key === "keywords") {
       this.addKeywords(value as KeywordsEntity[]);
     }
   };
@@ -32,7 +32,14 @@ class MovieKeywords extends WebElement {
 
   addKeywords(data: KeywordsEntity[]) {
     removeAllChildNodes(this.$.list);
-    data.map(this.toKeywordItem).forEach((li) => this.$.list.appendChild(li));
+    console.log("data?.length => ", data?.length)
+    if (data?.length) {
+      data.map(this.toKeywordItem).forEach((li) => this.$.list.appendChild(li));
+    } else {
+      const li = document.createElement("li");
+      li.textContent = "no keywords found";
+      this.$.list.appendChild(li);
+    }
   }
 }
 

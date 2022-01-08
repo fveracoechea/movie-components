@@ -1,9 +1,19 @@
+@import "../../styles/helpers";
+
 :host {
   width: 100%;
+  flex: 1;
 }
 
 .wrapper {
   padding: 0 1rem 1rem 1rem;
+
+  @include mobile {
+    padding: 1rem;
+    padding-top: 2rem;
+    width: 100%;
+    order: 2;
+  }
 
   .heading {
     h4 {
@@ -15,13 +25,20 @@
 
   .list {
     list-style: url("images/tag-icon.png");
+
+    @include mobile {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    
     li {
       min-width: 14rem;
       color: #777;
       margin-left: 1rem;
-      margin-bottom: .8rem;
+      margin-bottom: 0.8rem;
       &:first-child {
-        margin-top: .8rem;
+        margin-top: 0.8rem;
       }
     }
   }

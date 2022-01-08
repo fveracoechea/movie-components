@@ -1,0 +1,14 @@
+$primary: rgb(97, 169, 228);
+$primary_dark: steelblue;
+
+@mixin mobile {
+  @media (max-width: 1023px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}

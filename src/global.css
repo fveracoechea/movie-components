@@ -27,12 +27,6 @@ html, body {
   }
 }
 
-@media (max-width: 660px) {
-  html, body {
-    font-size: 14px;
-  }
-}
-
 h1 {
   font-size: 4rem;
   font-weight: 400;
@@ -74,4 +68,21 @@ p {
 
 .main-column {
   width: calc(100% - 280px);
+}
+
+@media (max-width: 1023px) {
+  .flex-group {
+    flex-direction: column;
+  }
+
+  .small-column {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .main-column {
+    width: 100%;
+  }
 }

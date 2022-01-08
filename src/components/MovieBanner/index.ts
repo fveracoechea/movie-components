@@ -9,6 +9,8 @@ import { format } from "date-fns";
 import { timeConvert } from "../../lib/helpers/date";
 
 class MovieBanner extends WebElement {
+  private loaded = false;
+
   constructor() {
     super();
     this.initialize(html, css);
@@ -33,19 +35,22 @@ class MovieBanner extends WebElement {
         const { status, data } = value as MovieEpic;
         if (status !== "done") {
           this.setLoader(true);
-        } else if (data) {
-          console.log('data ', data)
+        } else if (data && !this.loaded) {
+          console.log("data ", data);
           this.setLoader(false);
           this.elements.heading.textContent = data.title;
           this.elements.overview.textContent = data.overview;
           if (data.tagline) {
-            this.elements.tagline.textContent = `${timeConvert(data.runtime)} - ${data.tagline}`;
+            this.elements.tagline.textContent = `${timeConvert(
+              data.runtime
+            )} - ${data.tagline}`;
           } else {
             this.elements.tagline.textContent = timeConvert(data.runtime);
           }
           this.addImages(data);
           this.addReleaseData(data);
           this.addGenres(data);
+          this.loaded = true;
         }
         break;
 
