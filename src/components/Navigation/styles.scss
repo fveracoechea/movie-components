@@ -1,3 +1,4 @@
+@import "../../styles/helpers";
 nav {
   z-index: 100;
   position: fixed;
@@ -12,6 +13,29 @@ nav {
   padding: 1rem 1.2rem;
   transition: background-color 0.4s ease;
 
+  &.open {
+    background-color: rgba(0, 0, 0, 0) !important;
+    z-index: 100;
+    @include mobile {
+      .menu-button {
+        transform: rotate(180deg);
+      }
+      .nav-bar-wrapper {
+        transform: scale(1);
+        left: 0%;
+        bottom: 0%;
+        padding-top: 65px;
+      }
+      .nav-bar {
+        transform: scale(1);
+      }
+      .main-heading h1 {
+        font-size: 1.6rem !important;
+        color: var(--c-primary) !important;
+      }
+    }
+  }
+
   a {
     text-decoration: none;
   }
@@ -24,13 +48,85 @@ nav {
     margin: 0;
     transition: color, font-size 0.4s ease;
   }
+
+  .menu-button {
+    display: none;
+    transition: all .8s ease;
+
+    @include mobile {
+      display: block;
+      background-color: transparent;
+      color: var(--c-primary);
+      padding: 4px 4px 0 4px;
+      border: none;
+
+      span {
+        font-size: 2.2rem;
+      }
+    }
+  }
+
+  .nav-bar-wrapper {
+    @include mobile {
+      z-index: -1;
+      transition: all 0.4s ease;
+      border-bottom-left-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 100%;
+      bottom: 100%;
+      right: 0;
+      padding-top: 0;
+      background-image: linear-gradient(
+        rgba(0, 0, 0, 0.9) 70%,
+        rgba($primary_dark, 0.9)
+      );
+    }
+  }
+
   .nav-bar {
     list-style: none;
     margin: 0;
 
+    @include mobile {
+      transition: all 0.4s ease;
+      transform: scale(0);
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 65px;
+    }
+
     li {
       display: inline-block;
       position: relative;
+      cursor: pointer;
+      @include mobile {
+        padding: 1rem 2rem 1rem 2rem;
+      }
+
+      .material-icons {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        color: #f2f2f2;
+        opacity: 0;
+        transition: all 0.4s ease;
+        font-size: 2rem;
+
+        @include mobile {
+          display: inline-block;
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          opacity: 1;
+          // font-size: 1rem;
+        }
+      }
 
       a {
         font-weight: 400;
@@ -43,9 +139,24 @@ nav {
         font-family: "Roboto", sans-serif;
         transition: all 0.4s ease;
         z-index: 20;
+        @include mobile {
+          font-size: 1.2rem;
+        }
       }
 
-      span {
+      &:hover {
+        a {
+          opacity: 0;
+          @include mobile {
+            opacity: 1;
+          }
+        }
+        .material-icons {
+          opacity: 1;
+        }
+      }
+
+      span:not(.material-icons) {
         transition: all 0.4s ease;
         display: block;
         position: absolute;
@@ -56,7 +167,7 @@ nav {
         width: 0%;
         z-index: 10;
       }
-      &:hover span {
+      &:hover span:not(.material-icons) {
         width: 100%;
       }
     }
