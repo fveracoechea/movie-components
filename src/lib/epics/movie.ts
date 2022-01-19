@@ -28,7 +28,7 @@ export const initialState: MovieEpic = {
   data: null,
   keywords: null,
   credits: null,
-  reviews: null
+  reviews: null,
 };
 
 export const epic: Epic<MovieEpic> = ({ ofType, merge, dispatch }) => {
@@ -42,12 +42,12 @@ export const epic: Epic<MovieEpic> = ({ ofType, merge, dispatch }) => {
           .keywords(payload!.id)
           .then(({ keywords }) => keywords || []),
         credits: tmdb.movie.credits(payload!.id),
-        reviews: Promise.resolve(null)
+        reviews: Promise.resolve(null),
       })
     ),
     map((state) => ({
       ...state,
-      status: "done" as const
+      status: "done" as const,
     }))
   );
 
