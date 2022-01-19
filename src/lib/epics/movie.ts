@@ -3,8 +3,8 @@ import { Movie } from "../types/Movie";
 import { KeywordsEntity } from "../types/Keywords";
 import { mergeMap, tap, map, combineLatest, from } from "rxjs";
 import tmdb from "../tmdb";
-// import { isProduction } from "../helpers/elements";
 import { Credits } from "../types/Credits";
+import { isProduction } from "../helpers/elements";
 
 export type MovieEpic = {
   status: "idle" | "loading" | "done";
@@ -15,8 +15,8 @@ export type MovieEpic = {
 };
 
 export const onError = () => {
-  // const notFound = isProduction() ? "/movie-components/404.html" : "/404.html";
-  // window.location.replace(notFound);
+  const notFound = isProduction() ? "/movie-components/404.html" : "/404.html";
+  window.location.replace(notFound);
 };
 
 type FetchPayload = {
