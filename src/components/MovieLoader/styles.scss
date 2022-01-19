@@ -22,13 +22,27 @@
     width: calc(100vw);
     height: 100%;
 
+    @include mobile {
+      flex-direction: column;
+      align-items: center;
+    }
+
     .poster {
       width: 20%;
       padding-right: 2rem;
+
+      @include mobile {
+        width: 45%;
+      }
     }
 
     .details {
       width: 40%;
+      @include mobile {
+        width: 600px;
+        max-width: 90%;
+        padding-top: 2rem;
+      }
     }
 
     .overview-wrapper {
