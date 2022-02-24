@@ -1,16 +1,16 @@
 {{#> layout }}
 <div class="search-page">
-  <mc-hero
-    heading="Search"
-    description="Millions of movies, TV shows and people to discover. Explore now."
-    image="images/search.jpg"
-  ></mc-hero>
+  <section class="heading">
+    <div class="content">
+      <h2>Search for a movie, genre, or person...</h2>
+    </div>
+    <mc-search-input></mc-search-input>
+    <div class="filters">
+      <span>Filter by: </span>
+      <mc-switch></mc-switch>
+    </div>
+  </section>
   <div class="container">
-    <mc-article></mc-article>
-    <mc-article></mc-article>
-    <mc-article></mc-article>
-    <mc-article></mc-article>
-    <mc-article></mc-article>
   </div>
 </div>
 {{/layout}}

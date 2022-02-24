@@ -1,12 +1,12 @@
 import html from "./template.html";
 import css from "./styles.scss";
 import WebElement, { OnStateChange } from "../../lib/WebElement";
-import { MovieEpic } from "../../lib/epics/movie";
 import tmdb from "../../lib/tmdb";
 import { Movie } from "../../lib/types/Movie";
 import { getUrl } from "../../lib/helpers/elements";
 import { format } from "date-fns";
 import { timeConvert } from "../../lib/helpers/date";
+import { MovieState } from "../../lib/redux/movie/reducer";
 
 class MovieBanner extends WebElement {
   private loaded = false;
@@ -32,7 +32,7 @@ class MovieBanner extends WebElement {
   onStateChange: OnStateChange = (key, value) => {
     switch (key) {
       case "movie":
-        const { status, data } = value as MovieEpic;
+        const { status, data } = value as MovieState;
         if (status !== "done") {
           this.setLoader(true);
         } else if (data && !this.loaded) {

@@ -62,8 +62,8 @@ const navLinks = [
 const onWindowScroll$ = fromEvent(window, "scroll").pipe(
   tap(onScroll),
   map(() => {
-    if (window.scrollY > 100) {
-      return "rgba(0,0,0,.8)";
+    if (window.scrollY > 20) {
+      return "rgba(0,0,0,.9)";
     }
     return "rgba(0,0,0,0)";
   }),
@@ -89,7 +89,7 @@ class Article extends WebElement {
         const nav = this.shadowRoot!.querySelector("nav");
         const h1 = this.shadowRoot!.querySelector("h1");
         nav!.style.backgroundColor = backgroundColor;
-        if (backgroundColor === "rgba(0,0,0,.8)") {
+        if (backgroundColor === "rgba(0,0,0,.9)") {
           h1!.style.color = "var(--c-primary)";
           h1!.style.fontSize = "1.6rem";
         } else {
