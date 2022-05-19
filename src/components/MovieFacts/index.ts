@@ -2,7 +2,6 @@ import html from "./template.html";
 import css from "./styles.scss";
 import WebElement from "../../lib/WebElement";
 import { OnStateChange } from "../../lib/WebElement";
-import { removeAllChildNodes } from "../../lib/helpers/elements";
 import { ProductionCompaniesEntity } from "../../lib/types/Movie";
 
 class MovieFacts extends WebElement {
@@ -28,7 +27,7 @@ class MovieFacts extends WebElement {
       return this.addCompanies(value as any);
     }
 
-    removeAllChildNodes(this.$[key]);
+    WebElement.removeAllChildNodes(this.$[key]);
     const p = document.createElement("p");
 
     if (value) {
@@ -49,7 +48,7 @@ class MovieFacts extends WebElement {
   }
 
   private addCompanies(companies: ProductionCompaniesEntity[]) {
-    removeAllChildNodes(this.$.companies);
+    WebElement.removeAllChildNodes(this.$.companies);
     if (companies?.length) {
       companies.forEach((c) => {
         const li = document.createElement("li");

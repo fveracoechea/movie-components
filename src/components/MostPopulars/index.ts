@@ -4,7 +4,6 @@ import MovieCard from "../MovieCard";
 import html from "./template.html";
 import css from "./styles.scss";
 import Button from "../Button";
-import { removeAllChildNodes } from "../../lib/helpers/elements";
 import { ResultsEntity } from "../../lib/types/Discover";
 
 type FetchType = "now_playing" | "top_rated" | "upcoming" | "initialize";
@@ -19,18 +18,18 @@ const buttons: ButtonData[] = [
   {
     active: true,
     name: "now_playing",
-    slot: "In Theatres"
+    slot: "In Theatres",
   },
   {
     active: false,
     name: "top_rated",
-    slot: "Top Rated"
+    slot: "Top Rated",
   },
   {
     active: false,
     name: "upcoming",
-    slot: "Upcoming"
-  }
+    slot: "Upcoming",
+  },
 ];
 
 const isDefined = (btn: any): btn is Button => {
@@ -42,7 +41,7 @@ class MostPopulars extends WebElement {
 
   request = {
     type: "initialize" as FetchType,
-    page: 1
+    page: 1,
   };
 
   constructor() {
@@ -104,7 +103,7 @@ class MostPopulars extends WebElement {
         const [result] = await Promise.all([
           tmdb.movie.nowPlaying(),
           tmdb.movie.topRated(),
-          tmdb.movie.upComing()
+          tmdb.movie.upComing(),
         ]);
         return result;
     }
@@ -142,17 +141,15 @@ class MostPopulars extends WebElement {
   }
 
   setLoader() {
-    removeAllChildNodes(this.elements.cardsWrapper);
-    this.elements.cardsWrapper.style.display = "block";
+    WebElement.removeAllChildNodes(this.elements.cardsWrapper);
     const loader = document.createElement("mc-loader");
     this.elements.cardsWrapper.appendChild(loader);
   }
 
   addCards(data: ResultsEntity[], removeChildNodes = true) {
     if (removeChildNodes) {
-      removeAllChildNodes(this.elements.cardsWrapper);
+      WebElement.removeAllChildNodes(this.elements.cardsWrapper);
     }
-    this.elements.cardsWrapper.style.display = "flex";
     data.forEach((movie) => {
       const card = document.createElement("mc-movie-card") as MovieCard;
       card.setMovieCard({
@@ -160,7 +157,7 @@ class MostPopulars extends WebElement {
         date: movie.release_date,
         poster: tmdb.image(movie.poster_path),
         id: movie.id,
-        vote_average: movie.vote_average
+        vote_average: movie.vote_average,
       });
       this.elements.cardsWrapper.appendChild(card);
     });
@@ -170,7 +167,7 @@ class MostPopulars extends WebElement {
     this.request.page++;
     const { type, page } = this.request;
     this.fetchMovies(type === "initialize" ? "now_playing" : type, {
-      page: String(page)
+      page: String(page),
     }).then(({ results }) => {
       if (results) {
         this.addCards(results, false);
@@ -179,9 +176,11 @@ class MostPopulars extends WebElement {
   }
 
   onGoUp() {
-    const offset = 76
+    const offset = 76;
     const top =
-      this.elements.section.getBoundingClientRect().top + window.scrollY - offset;
+      this.elements.section.getBoundingClientRect().top +
+      window.scrollY -
+      offset;
     window.scrollTo({ top, behavior: "smooth" });
   }
 }

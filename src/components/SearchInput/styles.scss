@@ -1,3 +1,7 @@
+@import "../../styles/helpers";
+:host {
+  width: 100%;
+}
 .wrapper {
   position: relative;
   max-width: 1000px;
@@ -36,6 +40,11 @@
       background-color: var(--c-primary-dark);
       transition: all 0.4s ease;
       cursor: pointer;
+
+      @include mobile {
+        padding: 0 1rem;
+      }
+
       &:hover {
         background-color: var(--c-primary);
       }

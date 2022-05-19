@@ -1,0 +1,49 @@
+@import "../../styles/helpers";
+#listWrapper {
+  padding-top: 1.2rem;
+
+  #placeholder {
+    width: 100%;
+    padding: 6rem 2rem;
+    text-align: center;
+
+    span {
+      font-size: 6rem;
+      color: #b2b2b2;
+    }
+    p {
+      font-size: 2rem;
+      color: #b2b2b2;
+    }
+
+    @include mobile {
+      p {
+        font-size: 1.2rem;
+      }
+      span {
+        font-size: 4rem;
+      }
+    }
+  
+  }
+
+  & > div:not(#placeholder) {
+    display: inline-block;
+    width: 16.6%;
+    overflow: hidden;
+    padding: 1rem;
+
+    @media screen and (max-width: 1024px) {
+      width: 25%;
+      overflow: hidden;
+    }
+    @media screen and (max-width: 760px) {
+      width: 33.3%;
+      overflow: hidden;
+    }
+    @media screen and (max-width: 440px) {
+      width: 50%;
+      overflow: hidden;
+    }
+  }
+}

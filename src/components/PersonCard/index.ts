@@ -17,6 +17,12 @@ class PersonCard extends WebElement {
     this.initialize(html, css);
   }
 
+  connectedCallback() {
+    this.$.image.addEventListener("error", () => {
+      this.$.image.setAttribute("src", "images/profile-blank.png");
+    });
+  }
+
   setCard(data: CastEntity) {
     this.$.image.setAttribute("src", tmdb.image(data.profile_path!, "w185"));
     this.$.name.textContent = data.name;

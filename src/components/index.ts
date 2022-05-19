@@ -12,11 +12,13 @@ import Button from "./Button";
 import Loader from "./Loader";
 import Score from "./Score";
 import Skeleton from "./Skeleton";
-import MovieKeywords from './MovieKeywords';
-import PersonCard from './PersonCard';
-import MovieCast from './MovieCast';
-import MovieFacts from './MovieFacts';
-import MovieReviews from './MovieReviews';
+import MovieKeywords from "./MovieKeywords";
+import PersonCard from "./PersonCard";
+import MovieCast from "./MovieCast";
+import MovieFacts from "./MovieFacts";
+import MovieReviews from "./MovieReviews";
+import Switch from "./Switch";
+import SearchList from "./SearchList";
 
 export const defineComponents = () => {
   // define components
@@ -38,6 +40,8 @@ export const defineComponents = () => {
   customElements.define("mc-movie-cast", MovieCast);
   customElements.define("mc-movie-facts", MovieFacts);
   customElements.define("mc-movie-reviews", MovieReviews);
+  customElements.define("mc-switch", Switch);
+  customElements.define("mc-search-list", SearchList);
 
   return { Article, Hero, Navigation, Footer, SearchInput, Button };
 };

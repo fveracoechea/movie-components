@@ -20,17 +20,13 @@ export const getUrl = (
   query: Record<string, string | number> = {}
 ) => {
   const ext = path === "/" ? "" : ".html";
-  const url = isProduction() ? `/movie-components${path}${ext}` : `${path}${ext}`;
+  const url = isProduction()
+    ? `/movie-components${path}${ext}`
+    : `${path}${ext}`;
   return `${url}${toQueryString(query)}`;
 };
 
 const noop = (values: ChangedAttribute) => {};
-
-export function removeAllChildNodes(parent: ShadowRoot | HTMLElement) {
-  while (parent.firstChild) {
-    parent.removeChild(parent.firstChild);
-  }
-}
 
 export const createAttributeChangeCallback =
   (
@@ -46,6 +42,12 @@ export const createAttributeChangeCallback =
   };
 
 export const calculateRatio = (height = 750, width = 500) => {
-  const ratio = (height / width) * 100
-  return Math.round((ratio + Number.EPSILON) * 100) / 100
-}
+  const ratio = (height / width) * 100;
+  return Math.round((ratio + Number.EPSILON) * 100) / 100;
+};
+
+export const addStyles = (css: string) => {
+  const style = document.createElement("style");
+  style.textContent = css;
+  document.head.appendChild(style);
+};
