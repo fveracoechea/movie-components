@@ -1,8 +1,20 @@
-import get from "lodash/get";
+import _get from "lodash/get";
 import isEqual from "lodash/isEqual";
-import { distinctUntilChanged, Subscription, of, switchMap } from "rxjs";
-import { Action } from "./web-epic/types";
-import store from "./store";
+import { store, RootState } from "./redux/store";
+import { AnyAction, Unsubscribe } from "redux";
+import { ThunkAction } from "@reduxjs/toolkit";
+
+function get<
+  ObjecType extends object,
+  Path extends string,
+  OrElse extends unknown
+>(
+  obj: ObjecType,
+  path: Path,
+  orElse?: OrElse
+): ResolveType<ObjecType, Path, OrElse> {
+  return _get(obj, path, orElse);
+}
 
 type Callback<A, B> = (param: A) => B;
 
@@ -17,9 +29,9 @@ export type OnAttributeChange = {
   defaultCase: (values: ChangedAttribute) => void;
 } | null;
 
-export type OnStateChange = (
+export type OnStateChange<Value = unknown> = (
   key: string,
-  value: unknown,
+  value: Value,
   getState: () => unknown
 ) => void;
 
@@ -31,43 +43,31 @@ export interface WebElement {
   adoptedCallback?(): void;
 }
 
-const subscribe = (key: string, next: (state: any) => void, path?: string) => {
-  return store.state$
-    .pipe(
-      switchMap((state) => {
-        return of(
-          path
-            ? get(state, path, null)
-            : state[key as keyof typeof state] || null
-        );
-      }),
-      distinctUntilChanged((prev, current) => isEqual(prev, current))
-    )
-    .subscribe({
-      next,
-    });
-};
-
 export class WebElement extends HTMLElement {
+  static removeAllChildNodes(parent: ShadowRoot | HTMLElement) {
+    while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
+    }
+  }
+
   elements: Record<string, HTMLElement>;
   $: Record<string, HTMLElement>;
   nodeLists: Record<string, NodeListOf<HTMLElement>>;
-  subscriptions: Record<string, Subscription> = {};
+  subscriptions: Record<string, Unsubscribe> = {};
   state: Record<string, unknown> = {};
 
   constructor() {
     super();
     this.elements = {};
     this.nodeLists = {};
-    this.$ = {}
+    this.$ = {};
   }
 
   initialize(html: string, css?: string) {
     this.attachShadow({ mode: "open" });
     const $template = document.createElement("template");
     if (css) {
-      $template.innerHTML = 
-      `<style>
+      $template.innerHTML = `<style>
         @import "styles/global.css";
         ${css}
       </style>
@@ -82,18 +82,36 @@ export class WebElement extends HTMLElement {
     }
   }
 
-  dispatch<P = unknown>(action: Action<P>) {
-    store.dispatch(action);
+  dispatch<R>(
+    action: AnyAction | ThunkAction<R, RootState, undefined, AnyAction>
+  ) {
+    return store.dispatch(action);
+  }
+
+  getState() {
+    return store.getState();
   }
 
   subscribe(key: string, path?: string) {
-    const next = (state: any) => {
-      this.state[key] = state;
-      if (this.onStateChange) {
-        this.onStateChange(key, state, store.getState);
+    const currentState = store.getState();
+
+    this.state[key] = path
+      ? get(currentState, path, null)
+      : currentState[key as keyof RootState] || null;
+
+    this.subscriptions[key] = store.subscribe(() => {
+      const state = store.getState();
+      const newValue = path
+        ? get(state, path, null)
+        : state[key as keyof RootState] || null;
+
+      if (!isEqual(this.state[key], newValue)) {
+        this.state[key] = newValue;
+        if (this.onStateChange) {
+          this.onStateChange(key, newValue, store.getState);
+        }
       }
-    };
-    this.subscriptions[key] = subscribe(key, next, path);
+    });
   }
 
   noop = (values: ChangedAttribute) => {};

@@ -143,7 +143,6 @@ class MostPopulars extends WebElement {
 
   setLoader() {
     removeAllChildNodes(this.elements.cardsWrapper);
-    this.elements.cardsWrapper.style.display = "block";
     const loader = document.createElement("mc-loader");
     this.elements.cardsWrapper.appendChild(loader);
   }
@@ -152,7 +151,6 @@ class MostPopulars extends WebElement {
     if (removeChildNodes) {
       removeAllChildNodes(this.elements.cardsWrapper);
     }
-    this.elements.cardsWrapper.style.display = "flex";
     data.forEach((movie) => {
       const card = document.createElement("mc-movie-card") as MovieCard;
       card.setMovieCard({

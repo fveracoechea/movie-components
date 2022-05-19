@@ -5,6 +5,7 @@ import { OnStateChange } from "../../lib/WebElement";
 import { Reviews } from "../../lib/types/Reviews";
 import { removeAllChildNodes } from "../../lib/helpers/elements";
 import { format } from "date-fns";
+import { fetchReviewsById } from "../../lib/redux/movie/actions";
 
 class MovieReviews extends WebElement {
   constructor() {
@@ -19,7 +20,7 @@ class MovieReviews extends WebElement {
 
   onStateChange: OnStateChange = (key, value) => {
     if (key === "movieId" && value) {
-      this.dispatch({ type: "movie/reviews", payload: { id: value } });
+      this.dispatch(fetchReviewsById({ id: value as string }));
     }
 
     if (key === "reviews" && value) {
@@ -30,7 +31,7 @@ class MovieReviews extends WebElement {
   private renderList(reviews: Reviews) {
     if (reviews?.results?.length) {
       removeAllChildNodes(this.$.content);
-      reviews.results.reverse().forEach((review) => {
+      reviews.results.slice().reverse().forEach((review) => {
         const div = document.createElement("div");
         const h4 = document.createElement("h4");
         const p = document.createElement("p");

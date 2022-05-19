@@ -1,0 +1,55 @@
+:host {
+  display: flex;
+  align-items: center;
+}
+
+.switch {
+  position: relative;
+  width: auto;
+  padding: 0 1rem;
+  font-family: verdana;
+  background: #2b2b2b;
+  border-radius: 20px;
+  // box-shadow: 0 0 4px #000;
+
+  &__label {
+    display: inline-block;
+    width: auto;
+    padding: .6rem;
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    transition: color 200ms ease-out;
+    &:hover {
+      color: white;
+    }
+  }
+  &__indicator {
+    width: 53%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    background: blue;
+    border-radius: 20px;
+    transition: left 600ms cubic-bezier(.02,.94,.09,.97),
+                background 300ms cubic-bezier(.17,.67,.14,1.03);
+    transform: translateY(-50%);
+  }
+
+  input#one:checked ~ .switch__indicator {
+    background: rgba(PaleGreen, .3);
+    left: 0%;
+  }
+  input#two:checked ~ .switch__indicator {
+    background: rgba(MediumTurquoise, .3);
+    left: 47%;
+  }
+
+  input[type="radio"] {
+    &:not(:checked),
+    &:checked {
+      display: none;
+    }
+  }
+}
