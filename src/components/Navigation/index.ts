@@ -2,11 +2,7 @@ import { distinctUntilChanged, fromEvent, map, tap } from "rxjs";
 import WebElement from "../../lib/WebElement";
 import html from "./template.html";
 import css from "./styles.scss";
-import {
-  getUrl,
-  isProduction,
-  removeAllChildNodes,
-} from "../../lib/helpers/elements";
+import { getUrl, isProduction } from "../../lib/helpers/elements";
 
 const lockBodyScroll = () => {
   const scrollY = document.documentElement.style.getPropertyValue("--scroll-y");
@@ -111,7 +107,7 @@ class Article extends WebElement {
   }
 
   changeMenuIcon(isOpen: boolean) {
-    removeAllChildNodes(this.$.menuBtn);
+    WebElement.removeAllChildNodes(this.$.menuBtn);
     const span = document.createElement("span");
     span.className = "material-icons";
     span.textContent = isOpen ? "close" : "menu";

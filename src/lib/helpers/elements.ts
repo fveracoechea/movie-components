@@ -28,12 +28,6 @@ export const getUrl = (
 
 const noop = (values: ChangedAttribute) => {};
 
-export function removeAllChildNodes(parent: ShadowRoot | HTMLElement) {
-  while (parent.firstChild) {
-    parent.removeChild(parent.firstChild);
-  }
-}
-
 export const createAttributeChangeCallback =
   (
     handlers: Record<string, Callback<ChangedAttribute, void>>,

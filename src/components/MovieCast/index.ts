@@ -2,7 +2,6 @@ import html from "./template.html";
 import css from "./styles.scss";
 import WebElement from "../../lib/WebElement";
 import { OnStateChange } from "../../lib/WebElement";
-import { removeAllChildNodes } from "../../lib/helpers/elements";
 import PersonCard from "../PersonCard/index";
 import { Credits } from "../../lib/types/Credits";
 
@@ -18,7 +17,7 @@ class MovieCast extends WebElement {
 
   onStateChange: OnStateChange = async (key, value) => {
     if (key === "credits" && value) {
-      removeAllChildNodes(this.$.list);
+      WebElement.removeAllChildNodes(this.$.list);
       this.addCast(value as Credits);
     }
   };

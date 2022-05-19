@@ -3,7 +3,6 @@ import css from "./styles.scss";
 import WebElement from "../../lib/WebElement";
 import { OnStateChange } from "../../lib/WebElement";
 import { KeywordsEntity } from "../../lib/types/Keywords";
-import { removeAllChildNodes } from "../../lib/helpers/elements";
 
 class MovieKeywords extends WebElement {
   constructor() {
@@ -31,8 +30,7 @@ class MovieKeywords extends WebElement {
   }
 
   addKeywords(data: KeywordsEntity[]) {
-    removeAllChildNodes(this.$.list);
-    console.log("data?.length => ", data?.length)
+    WebElement.removeAllChildNodes(this.$.list);
     if (data?.length) {
       data.map(this.toKeywordItem).forEach((li) => this.$.list.appendChild(li));
     } else {

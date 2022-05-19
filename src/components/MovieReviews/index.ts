@@ -3,7 +3,6 @@ import css from "./styles.scss";
 import WebElement from "../../lib/WebElement";
 import { OnStateChange } from "../../lib/WebElement";
 import { Reviews } from "../../lib/types/Reviews";
-import { removeAllChildNodes } from "../../lib/helpers/elements";
 import { format } from "date-fns";
 import { fetchReviewsById } from "../../lib/redux/movie/actions";
 
@@ -30,7 +29,7 @@ class MovieReviews extends WebElement {
 
   private renderList(reviews: Reviews) {
     if (reviews?.results?.length) {
-      removeAllChildNodes(this.$.content);
+      WebElement.removeAllChildNodes(this.$.content);
       reviews.results.slice().reverse().forEach((review) => {
         const div = document.createElement("div");
         const h4 = document.createElement("h4");
