@@ -11,7 +11,7 @@ type MovieResultData = {
   credits: Credits;
 };
 
-// actions
+// Actions
 export const movieAdded = createAction<MovieResultData>("movie/added");
 
 export const loadingUpdated = createAction<{ loading: boolean }>(
@@ -22,7 +22,8 @@ export const reviewsFetched = createAction<{ reviews: any }>(
   "movie/loadingUpdated"
 );
 
-// thunks
+// Async Actions
+
 export const fetchMovieById = createAsyncThunk<MovieResultData, { id: string }>(
   "movie/fetchById",
   async ({ id }) => {

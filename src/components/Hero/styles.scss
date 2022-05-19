@@ -1,3 +1,6 @@
+
+@import "../../styles/helpers";
+
 .wrapper {
   padding: 8rem 2rem 2rem 2rem;
   min-height: 550px;
@@ -5,6 +8,11 @@
   background-size: cover;
   background-repeat: no-repeat;
   position: relative;
+
+  @include mobile {
+    padding: 4rem 1.4rem 1.4rem 1.4rem;
+    min-height: 35vh;
+  }
 
   &::before {
     position: absolute;
@@ -20,9 +28,16 @@
 
   .heading {
     color: var(--c-primary);
+    @include mobile {
+      font-size: 3.8rem;
+      margin: 2rem 0;
+    }
   }
 
   .description {
     color: #f2f2f2;
+    @include mobile {
+      font-size: 1.2rem;
+    }
   }
 }

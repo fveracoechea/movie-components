@@ -44,6 +44,12 @@ export interface WebElement {
 }
 
 export class WebElement extends HTMLElement {
+  static removeAllChildNodes(parent: ShadowRoot | HTMLElement) {
+    while (parent.firstChild) {
+      parent.removeChild(parent.firstChild);
+    }
+  }
+
   elements: Record<string, HTMLElement>;
   $: Record<string, HTMLElement>;
   nodeLists: Record<string, NodeListOf<HTMLElement>>;
@@ -76,7 +82,9 @@ export class WebElement extends HTMLElement {
     }
   }
 
-  dispatch<R>(action: AnyAction | ThunkAction<R, RootState, undefined, AnyAction>) {
+  dispatch<R>(
+    action: AnyAction | ThunkAction<R, RootState, undefined, AnyAction>
+  ) {
     return store.dispatch(action);
   }
 

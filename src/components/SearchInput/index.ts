@@ -1,7 +1,7 @@
 import debounce from "lodash/debounce";
 import html from "./template.html";
 import css from "./styles.scss";
-import WebElement from "../../lib/WebElement";
+import WebElement, { OnStateChange } from "../../lib/WebElement";
 import { fetchSearch, SearchObserver } from "../../lib/redux/search/actions";
 
 const formAction =
@@ -11,6 +11,7 @@ const formAction =
 
 class SearchInput extends WebElement {
   searchPromise: any = null;
+  mounted: boolean = false;
 
   private dispatchSearch = debounce(
     (args: SearchObserver) => this.dispatch(fetchSearch(args)),
@@ -24,8 +25,16 @@ class SearchInput extends WebElement {
   }
 
   connectedCallback() {
+    this.subscribe("searchQuery", "search.query");
     this.setEventListener();
   }
+
+  onStateChange: OnStateChange = (key, value) => {
+    if (key === "searchQuery" && !this.mounted) {
+      this.$.searchInput.setAttribute("value", String(value));
+      this.mounted = true;
+    }
+  };
 
   setPlaceholder(placeholder: string) {
     this.$.searchInput.setAttribute("placeholder", placeholder);

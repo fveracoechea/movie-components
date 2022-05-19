@@ -18,6 +18,7 @@ import MovieCast from "./MovieCast";
 import MovieFacts from "./MovieFacts";
 import MovieReviews from "./MovieReviews";
 import Switch from "./Switch";
+import SearchList from "./SearchList";
 
 export const defineComponents = () => {
   // define components
@@ -40,6 +41,7 @@ export const defineComponents = () => {
   customElements.define("mc-movie-facts", MovieFacts);
   customElements.define("mc-movie-reviews", MovieReviews);
   customElements.define("mc-switch", Switch);
+  customElements.define("mc-search-list", SearchList);
 
   return { Article, Hero, Navigation, Footer, SearchInput, Button };
 };

@@ -1,8 +1,10 @@
+import { createReducer } from "@reduxjs/toolkit";
+// actions
+import * as actions from "./actions";
+// types
 import { Movie } from "../../types/Movie";
 import { Credits } from "../../types/Credits";
 import { KeywordsEntity } from "../../types/Keywords";
-import { createReducer } from "@reduxjs/toolkit";
-import * as actions from "./actions";
 import { Reviews } from "../../types/Reviews";
 
 export type MovieState = {
@@ -23,10 +25,10 @@ export const initialState: MovieState = {
 
 export default createReducer(initialState, (builder) => {
   builder
-    .addCase(actions.fetchMovieById.pending, (state, { payload }) => {
+    .addCase(actions.fetchMovieById.pending, (state, { type, payload }) => {
       state.status = "loading";
     })
-    .addCase(actions.fetchMovieById.fulfilled, (state, { payload }) => {
+    .addCase(actions.fetchMovieById.fulfilled, (state, { type, payload }) => {
       state.data = payload.data;
       state.credits = payload.credits;
       state.keywords = payload.keywords;
