@@ -31,6 +31,11 @@ const navLinks = [
     icon: "movie",
   },
   {
+    href: "/search",
+    text: "search",
+    icon: "search",
+  },
+  {
     href: "/",
     text: "genres",
     icon: "style",
@@ -44,11 +49,6 @@ const navLinks = [
     href: "/",
     text: "people",
     icon: "people",
-  },
-  {
-    href: "/",
-    text: "search",
-    icon: "search",
   },
 ].map((link) => ({
   ...link,
